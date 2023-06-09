@@ -43,6 +43,7 @@ class QuickBirthTest extends QuickFormTestBase {
    * {@inheritdoc}
    */
   protected static $modules = [
+    'entity_reference_validators',
     'farm_animal',
     'farm_animal_type',
     'farm_birth',
@@ -72,6 +73,7 @@ class QuickBirthTest extends QuickFormTestBase {
       'farm_land',
       'farm_observation',
       'farm_quantity_standard',
+      'farm_unit',
     ]);
   }
 

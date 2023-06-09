@@ -109,6 +109,7 @@ abstract class QuickFormTestBase extends KernelTestBase {
     $this->installConfig([
       'farm_format',
       'farm_location',
+      'farm_log_asset',
       'system',
     ]);
   }
