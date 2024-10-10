@@ -327,6 +327,9 @@ class EntityCsvActionForm extends ConfirmFormBase implements BaseFormIdInterface
       // Return RFC3339 dates.
       'rfc3339_dates' => TRUE,
 
+      // Return WKT geometry.
+      'wkt' => TRUE,
+
       // CSV encoder settings.
       'csv_settings' => [
         'sanitize' => $form_state->getValue('sanitize'),
@@ -408,6 +411,7 @@ class EntityCsvActionForm extends ConfirmFormBase implements BaseFormIdInterface
       'changed',
       'entity_reference',
       'fraction',
+      'geofield',
       'list_string',
       'state',
       'string',
