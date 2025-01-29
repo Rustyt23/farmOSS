@@ -19,6 +19,7 @@ will ensure that all necessary changes have been applied before updating to 4.x.
 ### Changed
 
 - farmOS 4.x requires PHP 8.3+.
+- [Convert equipment to a base field #956](https://github.com/farmOS/farmOS/pull/956)
 
 ### Deprecated
 
