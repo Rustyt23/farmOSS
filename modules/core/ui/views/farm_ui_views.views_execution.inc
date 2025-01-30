@@ -189,6 +189,17 @@ function farm_ui_views_views_pre_render(ViewExecutable $view) {
  */
 function farm_ui_views_add_handlers(ViewExecutable $view, string $display_id, string $type, FieldDefinitionInterface $field_definition) {
 
+  // If the display's fields/filters are overridden, bail.
+  // We assume that fields/filters were overridden for a reason, and therefore
+  // we shouldn't dynamically add anything here.
+  if (
+    ($type == 'field' && !$view->getDisplay()->getOption('defaults')['fields'])
+    ||
+    ($type == 'filter' && !$view->getDisplay()->getOption('defaults')['filters'])
+    ) {
+    return;
+  }
+
   // Get the entity and bundle.
   $base_entity = $view->getBaseEntityType();
 
