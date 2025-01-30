@@ -171,6 +171,51 @@ There are a few things to make note of in this example:
    outstanding Drupal core issue:
    [Issue #3045509: EntityFieldManager::getFieldMap() doesn't show bundle fields](https://www.drupal.org/project/drupal/issues/3045509)
 
+### Views and CSV Importers
+
+Bundle fields will automatically be added to farmOS Views provided by the
+`farm_ui_views` module, like `/assets` and `/logs`, and to the default
+[CSV importers](csv) provided by the `farm_import_csv` module. Base fields,
+however, are not automatically added to these. Modules that add base fields must
+implement `hook_farm_ui_views_base_fields()` and
+`hook_farm_import_csv_base_fields()` in order to tell farmOS to include them.
+
+For example, to add the `myfield` base field declared in the example
+`hook_entity_base_field_info()` hook above, the following additional hooks can
+be added to `mymodule.module`:
+
+```php
+/**
+ * Implements hook_farm_ui_views_base_fields(). 
+ */
+function mymodule_farm_ui_views_base_fields(string $entity_type) {
+  $base_fields = [];
+
+  // Add the myfield base field to farmOS log Views.
+  if ($entity_type == 'log') {
+    $base_fields[] = 'myfield';
+  }
+
+  return $base_fields;
+}
+```
+
+```php
+/**
+ * Implements hook_farm_import_csv_base_fields(). 
+ */
+function mymodule_farm_import_csv_base_fields(string $entity_type) {
+  $base_fields = [];
+
+  // Add the myfield base field to log CSV importers.
+  if ($entity_type == 'log') {
+    $base_fields[] = 'myfield';
+  }
+
+  return $base_fields;
+}
+```
+
 ## Select options
 
 Certain fields on assets and logs include a list of options to select from.
