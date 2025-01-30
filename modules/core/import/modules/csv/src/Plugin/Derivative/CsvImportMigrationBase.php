@@ -6,8 +6,10 @@ namespace Drupal\farm_import_csv\Plugin\Derivative;
 
 use Drupal\Component\Plugin\Derivative\DeriverBase;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\Core\Field\BaseFieldDefinition;
 use Drupal\Core\Plugin\Discovery\ContainerDeriverInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
+use Drupal\entity\BundleFieldDefinition;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -127,7 +129,7 @@ abstract class CsvImportMigrationBase extends DeriverBase implements ContainerDe
       if ($this->entityTypeManager->hasHandler($this->entityType, 'bundle_plugin')) {
         $bundle_fields = $this->entityTypeManager->getHandler($this->entityType, 'bundle_plugin')->getFieldDefinitions($bundle->id());
         foreach ($bundle_fields as $field_definition) {
-          $this->addBundleField($field_definition, $definition['process'], $definition['third_party_settings']['farm_import_csv']['columns']);
+          $this->addFieldMapping($field_definition, $definition['process'], $definition['third_party_settings']['farm_import_csv']['columns']);
         }
       }
 
@@ -142,16 +144,16 @@ abstract class CsvImportMigrationBase extends DeriverBase implements ContainerDe
   }
 
   /**
-   * Adds bundle field mapping configuration for supported field types.
+   * Adds field mapping configuration for supported field types.
    *
-   * @param \Drupal\entity\BundleFieldDefinition $field_definition
+   * @param \Drupal\Core\Field\BaseFieldDefinition|\Drupal\entity\BundleFieldDefinition $field_definition
    *   The field definition.
    * @param array &$mapping
    *   The migration process mapping.
    * @param array &$columns
    *   The column descriptions from third-party settings.
    */
-  protected function addBundleField($field_definition, &$mapping, &$columns): void {
+  protected function addFieldMapping(BaseFieldDefinition|BundleFieldDefinition $field_definition, array &$mapping, array &$columns): void {
 
     // This only supports certain field types.
     $supported_field_types = [
