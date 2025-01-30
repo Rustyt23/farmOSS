@@ -23,6 +23,7 @@ class QuickStringTest extends KernelTestBase {
    */
   protected static $modules = [
     'asset',
+    'farm_field',
     'farm_quick',
     'state_machine',
     'user',
