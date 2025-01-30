@@ -43,6 +43,21 @@ function farm_group_entity_base_field_info_alter(&$fields, EntityTypeInterface $
 }
 
 /**
+ * Implements hook_farm_import_csv_base_fields().
+ */
+function farm_group_farm_import_csv_base_fields(string $entity_type) {
+  $base_fields = [];
+
+  // Add group and is_group_assignment base fields to log CSV importers.
+  if ($entity_type == 'log') {
+    $base_fields[] = 'group';
+    $base_fields[] = 'is_group_assignment';
+  }
+
+  return $base_fields;
+}
+
+/**
  * Implements hook_farm_ui_views_base_fields().
  */
 function farm_group_farm_ui_views_base_fields(string $entity_type) {

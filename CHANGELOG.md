@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - [Allow modules to add base fields to farmOS Views #915](https://github.com/farmOS/farmOS/pull/915)
 - [Allow modules to add base fields to default CSV importers #916](https://github.com/farmOS/farmOS/pull/916)
 - [Add support for boolean fields in CsvImportMigrationBase::addFieldMapping() #917](https://github.com/farmOS/farmOS/pull/917)
+- [Add group and is_group_assignment base fields to log CSV importers #919](https://github.com/farmOS/farmOS/pull/919)
 
 ### Changed
 
