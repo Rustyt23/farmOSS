@@ -229,9 +229,17 @@ function farm_ui_views_add_handlers(ViewExecutable $view, string $display_id, st
     $table = $entity_storage->getBaseTable();
   }
 
-  // Build the column name from the field name + main property.
-  $property_name = $field_definition->getFieldStorageDefinition()->getMainPropertyName();
-  $column_name = $field_definition->getName() . '_' . $property_name;
+  // Build the column name.
+  // If this is base field stored in the entity's base data table, or if this is
+  // a computed field, then the column name is simply the field name. Otherwise,
+  // it is the field name + main property name.
+  if ($table == $entity_storage->getDataTable() || $field_definition->isComputed()) {
+    $column_name = $field_definition->getName();
+  }
+  else {
+    $property_name = $field_definition->getFieldStorageDefinition()->getMainPropertyName();
+    $column_name = $field_definition->getName() . '_' . $property_name;
+  }
 
   // Fraction fields do not have a main property name, so build it manually.
   if ($field_type == 'fraction') {
