@@ -196,6 +196,7 @@ abstract class CsvImportMigrationBase extends DeriverBase implements ContainerDe
       'list_string',
       'string',
       'timestamp',
+      'boolean',
     ];
     if (!in_array($field_definition->getType(), $supported_field_types)) {
       return;
@@ -288,6 +289,18 @@ abstract class CsvImportMigrationBase extends DeriverBase implements ContainerDe
 
         // Describe allowed values.
         $description[] = $this->t('Accepts most date/time formats.');
+        break;
+
+      // Boolean.
+      case 'boolean':
+
+        // Parse with the boolean plugin.
+        $process[] = [
+          'plugin' => 'boolean',
+        ];
+
+        // Describe allowed values.
+        $description[] = $this->t('Accepts most boolean values.');
         break;
     }
 

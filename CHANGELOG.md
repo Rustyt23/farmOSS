@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - [Add support for geometry fields in CSV exports #884](https://github.com/farmOS/farmOS/pull/884)
 - [Allow modules to add base fields to farmOS Views #915](https://github.com/farmOS/farmOS/pull/915)
 - [Allow modules to add base fields to default CSV importers #916](https://github.com/farmOS/farmOS/pull/916)
+- [Add support for boolean fields in CsvImportMigrationBase::addFieldMapping() #917](https://github.com/farmOS/farmOS/pull/917)
 
 ### Changed
 
