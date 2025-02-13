@@ -147,7 +147,7 @@ class AssignActionForm extends ConfirmFormBase {
 
     // If there are no entities, or if the entity type definition didn't load,
     // redirect the user to the cancel URL.
-    if (empty($this->entityType) || empty($this->entities)) {
+    if (!$this->entityType || empty($this->entities)) {
       // Ignore PHPstan error for incorrect return type.
       // Forms can return a RedirectResponse.
       // @phpstan-ignore return.type
