@@ -120,9 +120,8 @@ function farm_ui_map_views_pre_render(ViewExecutable $view) {
       $type = AssetType::load($bundle);
 
       // Load the map layer style.
-      /** @var \Drupal\farm_map\Entity\LayerStyleInterface $layer_style */
-      $layer_style = \Drupal::service('farm_map.layer_style_loader')->load(['asset_type' => $bundle]);
-      if (!is_null($layer_style)) {
+      /** @var \Drupal\farm_map\Entity\LayerStyleInterface|NULL $layer_style */
+      if ($layer_style = \Drupal::service('farm_map.layer_style_loader')->load(['asset_type' => $bundle])) {
         $color = $layer_style->get('color');
       }
 

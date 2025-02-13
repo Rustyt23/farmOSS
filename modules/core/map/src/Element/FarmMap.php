@@ -94,10 +94,10 @@ class FarmMap extends RenderElementBase {
     $element['#attached']['drupalSettings']['farm_map_public_path'] = $public_path;
 
     // If #behaviors are included, attach each one.
+    $behavior_storage = $entity_type_manager->getStorage('map_behavior');
     foreach ($element['#behaviors'] as $behavior_name) {
-      /** @var \Drupal\farm_map\Entity\MapBehaviorInterface $behavior */
-      $behavior = $entity_type_manager->getStorage('map_behavior')->load($behavior_name);
-      if (!is_null($behavior)) {
+      /** @var \Drupal\farm_map\Entity\MapBehaviorInterface|NULL $behavior */
+      if ($behavior = $behavior_storage->load($behavior_name)) {
         $element['#attached']['library'][] = $behavior->getLibrary();
       }
     }
