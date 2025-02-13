@@ -211,6 +211,9 @@ class EntityCsvActionForm extends ConfirmFormBase implements BaseFormIdInterface
     $this->entityType = $this->entityTypeManager->getDefinition($entity_type_id);
     $this->entities = $this->tempStore->get($this->user->id() . ':' . $entity_type_id);
     if (empty($entity_type_id) || empty($this->entities)) {
+      // Ignore PHPstan error for incorrect return type.
+      // Forms can return a RedirectResponse.
+      // @phpstan-ignore return.type
       return new RedirectResponse($this->getCancelUrl()
         ->setAbsolute()
         ->toString());
