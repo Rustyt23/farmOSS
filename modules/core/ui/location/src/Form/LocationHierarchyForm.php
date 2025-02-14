@@ -340,7 +340,7 @@ class LocationHierarchyForm extends FormBase {
         $message = $this->t('Parents changed to %parents via the Locations drag and drop editor.', ['%parents' => implode(', ', $parent_names)]);
       }
       $asset->setNewRevision(TRUE);
-      $asset->setRevisionLogMessage($message);
+      $asset->setRevisionLogMessage($message->render());
       $asset->save();
     }
 
