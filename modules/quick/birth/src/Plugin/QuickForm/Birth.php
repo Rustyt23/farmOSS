@@ -131,6 +131,9 @@ class Birth extends QuickFormBase {
       $container->get('config.factory'),
       $container->get('asset.location'),
       $container->get('current_user'),
+      // Ignore PHPStan error for ternary logic. It is possible that the
+      // group.membership does not exist if the group module is not installed.
+      // @phpstan-ignore ternary.alwaysTrue
       $container->has('group.membership') ? $container->get('group.membership') : NULL,
     );
   }
