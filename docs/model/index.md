@@ -23,6 +23,7 @@ keeping data types are **Assets** and **Logs**. Other types include
 - [Files](/model/type/file)
 - [Terms](/model/type/term)
 - [Plans](/model/type/plan)
+- [Plan Records](/model/type/plan_record)
 - [Users](/model/type/user)
 
 ## Logic
