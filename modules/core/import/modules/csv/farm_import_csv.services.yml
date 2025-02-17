@@ -6,7 +6,7 @@ services:
       - { name: 'access_check' }
   farm_import_csv.migration_subscriber:
     class: Drupal\farm_import_csv\EventSubscriber\CsvMigrationSubscriber
-    arguments: [ '@database', '@current_user', '@tempstore.private' ]
+    arguments: [ '@database', '@current_user', '@tempstore.private', '@messenger' ]
     tags:
       - { name: 'event_subscriber' }
   farm_import_csv.config_subscriber:

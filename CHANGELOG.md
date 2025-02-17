@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- [CSV import validation messages not showing #924](https://github.com/farmOS/farmOS/issues/924)
+
 ## [3.3.3] 2025-01-07
 
 Note: The `farmos/farmos:3.x` and `farmos/farmos:3.3.3` Docker images include
