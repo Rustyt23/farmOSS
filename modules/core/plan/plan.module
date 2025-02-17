@@ -7,6 +7,7 @@
 
 declare(strict_types=1);
 
+use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Render\Element;
 use Drupal\Core\Routing\RouteMatchInterface;
 
@@ -24,6 +25,18 @@ function plan_help($route_name, RouteMatchInterface $route_match) {
   }
 
   return $output;
+}
+
+/**
+ * Implements hook_ENTITY_TYPE_delete().
+ */
+function plan_plan_delete(EntityInterface $entity) {
+
+  // Delete all plan_record entities associated with the plan.
+  $plan_records = \Drupal::entityTypeManager()->getStorage('plan_record')->loadByProperties(['plan' => $entity->id()]);
+  foreach ($plan_records as $plan_record) {
+    $plan_record->delete();
+  }
 }
 
 /**

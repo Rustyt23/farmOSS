@@ -20,6 +20,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - [Pin PHP version to 8.3 in Dockerfile #923](https://github.com/farmOS/farmOS/pull/923)
 - [Update farmOS-map to 2.4.0 #926](https://github.com/farmOS/farmOS/pull/926)
+- [Delete associated plan_record entities when a plan is deleted #928](https://github.com/farmOS/farmOS/pull/928)
 
 ### Deprecated
 
