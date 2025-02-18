@@ -33,9 +33,14 @@ function plan_help($route_name, RouteMatchInterface $route_match) {
 function plan_plan_delete(EntityInterface $entity) {
 
   // Delete all plan_record entities associated with the plan.
-  $plan_records = \Drupal::entityTypeManager()->getStorage('plan_record')->loadByProperties(['plan' => $entity->id()]);
-  foreach ($plan_records as $plan_record) {
-    $plan_record->delete();
+  $plan_record_storage = \Drupal::entityTypeManager()->getStorage('plan_record');
+  $plan_ids = $plan_record_storage->getQuery()
+    ->condition('plan', $entity->id())
+    ->accessCheck(FALSE)
+    ->execute();
+  foreach ($plan_ids as $id) {
+    $plan_record = $plan_record_storage->load($id);
+    $plan_record?->delete();
   }
 }
 
