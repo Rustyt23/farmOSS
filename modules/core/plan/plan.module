@@ -38,9 +38,12 @@ function plan_plan_delete(EntityInterface $entity) {
     ->condition('plan', $entity->id())
     ->accessCheck(FALSE)
     ->execute();
-  foreach ($plan_ids as $id) {
-    $plan_record = $plan_record_storage->load($id);
-    $plan_record?->delete();
+  if (!is_array($plan_ids) || count($plan_ids) < 1) {
+    return;
+  }
+  foreach (array_chunk($plan_ids, 100) as $chunk) {
+    $plan_records = $plan_record_storage->loadMultiple($chunk);
+    $plan_record_storage->delete($plan_records);
   }
 }
 
