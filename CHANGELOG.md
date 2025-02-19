@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Security
+
+- Update Drupal core to 10.4.3 for
+  [SA-CORE-2025-001](https://www.drupal.org/sa-core-2025-001),
+  [SA-CORE-2025-002](https://www.drupal.org/sa-core-2025-002), and
+  [SA-CORE-2025-003](https://www.drupal.org/sa-core-2025-003)
+
 ## [3.4.0] 2025-02-19
 
 ### Added
