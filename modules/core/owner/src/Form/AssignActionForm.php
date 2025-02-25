@@ -132,7 +132,7 @@ class AssignActionForm extends ConfirmFormBase {
   /**
    * {@inheritdoc}
    */
-  public function buildForm(array $form, FormStateInterface $form_state, ?string $entity_type = NULL) {
+  public function buildForm(array $form, FormStateInterface $form_state, ?string $entity_type = NULL): array|RedirectResponse {
 
     // Only allow asset and log entities.
     if (!in_array($entity_type, ['asset', 'log'])) {
@@ -148,9 +148,6 @@ class AssignActionForm extends ConfirmFormBase {
     // If there are no entities, or if the entity type definition didn't load,
     // redirect the user to the cancel URL.
     if (!$this->entityType || empty($this->entities)) {
-      // Ignore PHPstan error for incorrect return type.
-      // Forms can return a RedirectResponse.
-      // @phpstan-ignore return.type
       return new RedirectResponse($this->getCancelUrl()
         ->setAbsolute()
         ->toString());

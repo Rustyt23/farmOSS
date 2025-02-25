@@ -132,7 +132,7 @@ class AssetParentActionForm extends ConfirmFormBase {
   /**
    * {@inheritdoc}
    */
-  public function buildForm(array $form, FormStateInterface $form_state) {
+  public function buildForm(array $form, FormStateInterface $form_state): array|RedirectResponse {
 
     // Check if asset IDs were provided in the asset query param.
     if ($asset_ids = $this->request->get('asset')) {
@@ -154,9 +154,6 @@ class AssetParentActionForm extends ConfirmFormBase {
 
     $this->entityType = $this->entityTypeManager->getDefinition('asset');
     if (!$this->entityType || empty($this->entities)) {
-      // Ignore PHPstan error for incorrect return type.
-      // Forms can return a RedirectResponse.
-      // @phpstan-ignore return.type
       return new RedirectResponse($this->getCancelUrl()
         ->setAbsolute()
         ->toString());

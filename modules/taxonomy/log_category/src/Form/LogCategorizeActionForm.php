@@ -120,13 +120,10 @@ class LogCategorizeActionForm extends ConfirmFormBase {
   /**
    * {@inheritdoc}
    */
-  public function buildForm(array $form, FormStateInterface $form_state) {
+  public function buildForm(array $form, FormStateInterface $form_state): array|RedirectResponse {
     $this->entityType = $this->entityTypeManager->getDefinition('log');
     $this->entities = $this->tempStore->get((string) $this->user->id());
     if (!$this->entityType || empty($this->entities)) {
-      // Ignore PHPstan error for incorrect return type.
-      // Forms can return a RedirectResponse.
-      // @phpstan-ignore return.type
       return new RedirectResponse($this->getCancelUrl()
         ->setAbsolute()
         ->toString());
