@@ -24,8 +24,9 @@ class TimelineTask extends Map implements ComplexDataInterface {
    * {@inheritdoc}
    */
   public function setValue($values, $notify = TRUE) {
-    // Ignore PHPStan error for conditional logic.
-    // We follow Drupal core convention from the parent method.
+    // PHPStan level 3+ throws the following error on the next line:
+    // Result of && is always false.
+    // We ignore this because we are following Drupal core's pattern.
     // @phpstan-ignore booleanAnd.alwaysFalse
     if (isset($values) && !is_array($values)) {
       throw new \InvalidArgumentException("Invalid values given. Values must be represented as an associative array.");
