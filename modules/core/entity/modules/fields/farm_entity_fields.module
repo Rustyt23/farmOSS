@@ -101,8 +101,7 @@ function farm_entity_fields_entity_base_field_info_alter(&$fields, EntityTypeInt
     }
 
     // Hide the label, if desired.
-    // @phpstan-ignore booleanAnd.rightAlwaysTrue
-    if (!empty($options['label']) && $options['label'] == 'hidden') {
+    if (!empty($options['label']) && $options['label'] === 'hidden') {
       $view_display_options['label'] = 'hidden';
     }
 
