@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [3.4.3] 2025-03-20
+
 ### Security
 
 - Update Drupal core to 10.4.5 for [SA-CORE-2025-004](https://www.drupal.org/sa-core-2025-004)
@@ -916,7 +918,8 @@ moving forward.
     Drupal 7, which required a complete refactor of the codebase. By comparison,
     updating from Drupal 9 to 10 will simply involve updating deprecated code.
 
-[Unreleased]: https://github.com/farmOS/farmOS/compare/3.4.2..HEAD
+[Unreleased]: https://github.com/farmOS/farmOS/compare/3.4.3..HEAD
+[3.4.3]: https://github.com/farmOS/farmOS/releases/tag/3.4.3
 [3.4.2]: https://github.com/farmOS/farmOS/releases/tag/3.4.2
 [3.4.1]: https://github.com/farmOS/farmOS/releases/tag/3.4.1
 [3.4.0]: https://github.com/farmOS/farmOS/releases/tag/3.4.0
