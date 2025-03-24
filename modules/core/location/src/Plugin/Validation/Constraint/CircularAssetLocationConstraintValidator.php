@@ -66,7 +66,7 @@ class CircularAssetLocationConstraintValidator extends ConstraintValidator imple
     }
 
     // Get the log's timestamp.
-    $timestamp = $log->get('timestamp')->value;
+    $timestamp = (int) $log->get('timestamp')->value;
 
     // Iterate through referenced entities.
     foreach ($value->referencedEntities() as $delta => $asset) {
