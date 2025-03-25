@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- [Automatically rotate derivative images based on EXIF Orientation #941](https://github.com/farmOS/farmOS/pull/941)
+
 ### Fixed
 
 - [Fix Warning: Undefined array keys in hook_views_pre_render() #937](https://github.com/farmOS/farmOS/pull/937)
