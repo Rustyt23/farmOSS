@@ -27,6 +27,8 @@ dependencies. The [farmOS Docker images](#farmos-in-docker) include these.
   **[GEOS](https://trac.osgeo.org/geos)** are required for accurate geometric
   calculations. farmOS can be installed without these, but production usage
   without them is strongly discouraged.
+- **[PHP EXIF extension](https://www.php.net/manual/en/book.exif.php)** is
+  necessary for automatic image rotation, but is not required.
 
 ### Database server
 

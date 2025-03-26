@@ -33,3 +33,12 @@ function farm_entity_fields_post_update_add_term_external_uri(&$sandbox) {
   $field_definition = \Drupal::service('farm_field.factory')->baseFieldDefinition($field_info);
   \Drupal::entityDefinitionUpdateManager()->installFieldStorageDefinition('external_uri', 'taxonomy_term', 'farm_entity_fields', $field_definition);
 }
+
+/**
+ * Install farm_image module.
+ */
+function farm_entity_fields_post_update_install_farm_image(&$sandbox = NULL) {
+  if (!\Drupal::service('module_handler')->moduleExists('farm_image')) {
+    \Drupal::service('module_installer')->install(['farm_image']);
+  }
+}

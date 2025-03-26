@@ -30,8 +30,8 @@ RUN apt-get update && apt-get install -y libgeos-dev \
     && make install \
     )
 
-# Install the BCMath PHP extension.
-RUN docker-php-ext-install bcmath
+# Install the BCMath and Exif PHP extensions.
+RUN docker-php-ext-install bcmath exif
 
 ##
 # Build common requirements for production and development images.
@@ -48,7 +48,7 @@ RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf
 
 # Enable PHP dependencies.
 COPY --from=php-dependencies /usr/local/lib/php/extensions/ /usr/local/lib/php/extensions/
-RUN docker-php-ext-enable geos bcmath
+RUN docker-php-ext-enable bcmath exif geos
 
 # Add custom PHP configurations.
 COPY conf.d/ /usr/local/etc/php/conf.d
