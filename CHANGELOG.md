@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - [Automatically rotate derivative images based on EXIF Orientation #941](https://github.com/farmOS/farmOS/pull/941)
+- [Allow WebP files in image fields #942](https://github.com/farmOS/farmOS/pull/942)
 
 ### Fixed
 

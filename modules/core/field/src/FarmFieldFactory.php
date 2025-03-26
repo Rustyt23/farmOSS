@@ -629,7 +629,7 @@ class FarmFieldFactory implements FarmFieldFactoryInterface {
         break;
 
       case 'image':
-        $settings['file_extensions'] = 'png gif jpg jpeg';
+        $settings['file_extensions'] = 'png gif jpg jpeg webp';
         $settings['max_resolution'] = '';
         $settings['min_resolution'] = '';
         $settings['alt_field'] = FALSE;
