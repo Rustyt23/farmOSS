@@ -25,6 +25,7 @@ class InventoryFormatter extends FormatterBase {
   public function viewElements(FieldItemListInterface $items, $langcode) {
     $elements = [];
 
+    /** @var \Drupal\farm_inventory\Plugin\Field\FieldType\InventoryItem $item */
     foreach ($items as $delta => $item) {
       $summary = $item->value;
       if (!empty($item->units)) {

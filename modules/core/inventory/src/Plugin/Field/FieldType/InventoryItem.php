@@ -12,6 +12,10 @@ use Drupal\Core\TypedData\DataDefinition;
 
 /**
  * Plugin implementation of the 'Inventory' field type.
+ *
+ * @property string $measure
+ * @property string $value
+ * @property string $units
  */
 #[FieldType(
   id: 'inventory',

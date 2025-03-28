@@ -63,6 +63,7 @@ class HideableBoolean extends BooleanFormatter {
 
     $formats = $this->getOutputFormats();
 
+    /** @var \Drupal\Core\Field\Plugin\Field\FieldType\BooleanItem $item */
     foreach ($items as $delta => $item) {
       $format = $this->getSetting('format');
 
