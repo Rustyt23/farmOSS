@@ -226,7 +226,7 @@ for more information.
 To illustrate, this is how to filter activity logs by their completed status:
 
 - farmOS 1.x: `/log.json?type=activity&done=1`
-- farmOS 2.x: `/api/log/activity?filter[status]=complete`
+- farmOS 2.x: `/api/log/activity?filter[status]=done`
 
 ### Text format
 

@@ -9,7 +9,7 @@ To adjust the inventory of an Asset, enable the Inventory module, and create a
 Log with a Quantity. Within the Quantity, select "Increment", "Decrement", or
 "Reset" in the "Inventory adjustment" options, and then select the Asset whose
 inventory you would like to adjust. Fill in the Quantity's value (and
-optionally its measure, units, and label), set the Log's status to "complete",
+optionally its measure, units, and label), set the Log's status to "done",
 and then save the Log. Browse to the Asset you selected, and you will see the
 new inventory level.
 

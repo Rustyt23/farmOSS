@@ -6,7 +6,7 @@ in the future.
 
 Planning ahead in farmOS is exactly the same as recording things that already
 happened. The only difference is that the date is in the future, and the Log
-status is "pending" instead of "complete".
+status is "pending" instead of "done".
 
 Logs that are in the future and "pending" will appear in your "Upcoming Tasks"
 list on the dashboard. Underneath that is a "Late tasks" list, which shows all

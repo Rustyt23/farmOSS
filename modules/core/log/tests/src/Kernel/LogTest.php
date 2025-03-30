@@ -91,8 +91,8 @@ class LogTest extends KernelTestBase {
     $log_ids = $this->logQueryFactory->getQuery(['timestamp' => $now])->accessCheck(FALSE)->execute();
     $this->assertNotContains($foo_log->id(), $log_ids, 'Log query results can be filtered by timestamp.');
 
-    // Set the status of one log to complete.
-    $bar_log->set('status', 'complete');
+    // Set the status of one log to "done".
+    $bar_log->set('status', 'done');
     $bar_log->save();
 
     // Test that results can be filtered by status.

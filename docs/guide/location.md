@@ -10,7 +10,7 @@ though they are actually a more specific Log type like "Activity",
 
 farmOS determines the "current location" of an Asset by looking at the Asset's
 most recent movement Log (with a date less than or equal to the present moment).
-Only Logs that have been marked as "complete" are taken into consideration.
+Only Logs that have been marked as "done" are taken into consideration.
 
 Every Log has a "Location" reference field (for referencing the location Asset
 that things are moving to), a "Geometry" field (for recording the precise

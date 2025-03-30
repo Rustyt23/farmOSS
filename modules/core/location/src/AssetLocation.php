@@ -285,7 +285,7 @@ class AssetLocation implements AssetLocationInterface {
           -- These conditions should match the values in the WHERE clause.
           AND (lfd2.status = 'done') AND (lfd2.timestamp <= :timestamp)
 
-      -- Limit results to completed movement logs to the desired location that
+      -- Limit results to done movement logs to the desired location that
       -- took place before the given timestamp.
       WHERE (lfd.is_movement = 1) AND (lfd.status = 'done') AND (lfd.timestamp <= :timestamp) AND (ll.location_target_id IN (:location_ids[]))
 
