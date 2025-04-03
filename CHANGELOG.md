@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [3.4.4] 2025-04-03
+
 ### Changed
 
 - [Automatically rotate derivative images based on EXIF Orientation #941](https://github.com/farmOS/farmOS/pull/941)
@@ -928,7 +930,8 @@ moving forward.
     Drupal 7, which required a complete refactor of the codebase. By comparison,
     updating from Drupal 9 to 10 will simply involve updating deprecated code.
 
-[Unreleased]: https://github.com/farmOS/farmOS/compare/3.4.3..HEAD
+[Unreleased]: https://github.com/farmOS/farmOS/compare/3.4.4..HEAD
+[3.4.4]: https://github.com/farmOS/farmOS/releases/tag/3.4.4
 [3.4.3]: https://github.com/farmOS/farmOS/releases/tag/3.4.3
 [3.4.2]: https://github.com/farmOS/farmOS/releases/tag/3.4.2
 [3.4.1]: https://github.com/farmOS/farmOS/releases/tag/3.4.1
