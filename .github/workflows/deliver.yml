@@ -182,7 +182,7 @@ jobs:
           cp docker/docker-compose.testing.* .
           docker compose -f docker-compose.testing.common.yml -f docker-compose.testing.${{ matrix.dbms }}.yml config > docker-compose.yml
           # Replace the generic 'farmos/farmos:${FARMOS_DEV_BRANCH}-dev' image name/tag with the reference to our local platform-specific tagged image
-          sed -i "s%farmos/farmos:${FARMOS_DEV_BRANCH}-dev%'${DOCKER_IMG_PREFIX}:${FARMOS_DEV_BRANCH}-dev-${{ matrix.platform }}'%g" docker-compose.yml
+          sed -i "s%farmos/farmos:${FARMOS_DEV_BRANCH}-dev%${DOCKER_IMG_PREFIX}:${FARMOS_DEV_BRANCH}-dev-${{ matrix.platform }}%g" docker-compose.yml
       - name: Start containers
         run: docker compose up -d
       - name: Wait until www container is ready
