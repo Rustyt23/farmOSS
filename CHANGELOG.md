@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- [Fix hidden entity fields #950](https://github.com/farmOS/farmOS/pull/950)
+
 ## [3.4.4] 2025-04-03
 
 ### Changed

@@ -90,23 +90,13 @@ function farm_entity_fields_entity_base_field_info_alter(&$fields, EntityTypeInt
 
     // Hide the field, if desired.
     if (!empty($options['hidden'])) {
-      switch ($options['hidden']) {
-
-        // Only hide in the entity form.
-        case 'form':
-          $form_display_options['region'] = 'hidden';
-          break;
-
-        // Only hide in the entity view.
-        case 'view':
-          $view_display_options['region'] = 'hidden';
-          break;
-
-        // Hide in both the entity form and view.
-        case TRUE:
-          $form_display_options['region'] = 'hidden';
-          $view_display_options['region'] = 'hidden';
-          break;
+      /** @var bool|string $hidden */
+      $hidden = $options['hidden'];
+      if ($hidden === TRUE || $hidden === 'form') {
+        $form_display_options['region'] = 'hidden';
+      }
+      if ($hidden === TRUE || $hidden === 'view') {
+        $view_display_options['region'] = 'hidden';
       }
     }
 
