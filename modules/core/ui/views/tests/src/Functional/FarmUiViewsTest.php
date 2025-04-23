@@ -50,6 +50,7 @@ class FarmUiViewsTest extends FarmBrowserTestBase {
     $this->doTestAssetViews();
     $this->doTestLogViews();
     $this->doTestAssetsByLocationView();
+    $this->doTestAssetChildrenView();
   }
 
   /**
@@ -182,6 +183,49 @@ class FarmUiViewsTest extends FarmBrowserTestBase {
 
     // Check that /asset/%/assets returns a 403.
     $this->drupalGet('/asset/' . $water->id() . '/assets');
+    $this->assertSession()->statusCodeEquals(403);
+
+    // Delete all entities.
+    $this->deleteAllEntities();
+  }
+
+  /**
+   * Test farm_asset View's page_children display.
+   */
+  public function doTestAssetChildrenView() {
+
+    // Create a parent asset.
+    $parent = Asset::create([
+      'name' => 'Parent asset',
+      'type' => 'equipment',
+      'status' => 'active',
+    ]);
+    $parent->save();
+
+    // Check that /asset/%/children returns a 403.
+    $this->drupalGet('/asset/' . $parent->id() . '/children');
+    $this->assertSession()->statusCodeEquals(403);
+
+    // Create a child asset.
+    $child = Asset::create([
+      'name' => 'Child asset',
+      'type' => 'equipment',
+      'parent' => [$parent],
+      'status' => 'active',
+    ]);
+    $child->save();
+
+    // Check that the child appears in /asset/%/children.
+    $this->drupalGet('/asset/' . $parent->id() . '/children');
+    $this->assertSession()->statusCodeEquals(200);
+    $this->assertSession()->pageTextContains($child->label());
+
+    // Set is_location to TRUE on the parent.
+    $parent->set('is_location', TRUE);
+    $parent->save();
+
+    // Check that /asset/%/children returns a 403.
+    $this->drupalGet('/asset/' . $parent->id() . '/children');
     $this->assertSession()->statusCodeEquals(403);
 
     // Delete all entities.
