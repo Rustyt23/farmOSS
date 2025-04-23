@@ -50,10 +50,10 @@ class FarmLocationAssetViewsAccessCheck implements AccessInterface {
    */
   public function access(RouteMatchInterface $route_match) {
 
-    // If there is no integer "asset" parameter, deny access.
+    // If there is no "asset" parameter, bail.
     $asset_id = $route_match->getParameter('asset');
-    if (empty($asset_id) || !is_int($asset_id)) {
-      return AccessResult::forbidden();
+    if (empty($asset_id)) {
+      return AccessResult::allowed();
     }
 
     // Allow access if the asset is a location.
