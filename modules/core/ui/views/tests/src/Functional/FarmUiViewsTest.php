@@ -27,13 +27,35 @@ class FarmUiViewsTest extends FarmBrowserTestBase {
   ];
 
   /**
-   * Test Views provided by the farm_ui_views module.
+   * {@inheritdoc}
    */
-  public function testFarmUiViews() {
+  protected function setUp(): void {
+    parent::setUp();
 
-    // Create and login a user with permission to view assets.
+    // Create and login a user with permission to view assets and logs.
     $user = $this->createUser(['view any asset', 'view any log']);
     $this->drupalLogin($user);
+
+    // Disable entity_reference_integrity_enforce module's protections, so we
+    // can delete all entities easily.
+    $erie_config = \Drupal::configFactory()->getEditable('entity_reference_integrity_enforce.settings');
+    $erie_config->set('enabled_entity_type_ids', []);
+    $erie_config->save();
+  }
+
+  /**
+   * Run all tests.
+   */
+  public function testAll() {
+    $this->doTestAssetViews();
+    $this->doTestLogViews();
+    $this->doTestAssetsByLocationView();
+  }
+
+  /**
+   * Test farm_asset View's page and page_type displays.
+   */
+  public function doTestAssetViews() {
 
     // Create two assets of different types.
     $equipment = Asset::create([
@@ -67,6 +89,15 @@ class FarmUiViewsTest extends FarmBrowserTestBase {
     $this->assertSession()->pageTextContains('Manufacturer');
     $this->assertSession()->pageTextContains('Model');
     $this->assertSession()->pageTextContains('Serial number');
+
+    // Delete all entities.
+    $this->deleteAllEntities();
+  }
+
+  /**
+   * Test farm_log View's page and page_type displays.
+   */
+  public function doTestLogViews() {
 
     // Create two activity logs with different test_string values.
     $activity1 = Log::create([
@@ -102,6 +133,29 @@ class FarmUiViewsTest extends FarmBrowserTestBase {
     $this->assertSession()->pageTextContains('Foo activity');
     $this->assertSession()->pageTextNotContains('Baz activity');
 
+    // Delete all entities.
+    $this->deleteAllEntities();
+  }
+
+  /**
+   * Test farm_asset View's page_location display.
+   */
+  public function doTestAssetsByLocationView() {
+
+    // Create two assets of different types.
+    $equipment = Asset::create([
+      'name' => 'Equipment asset',
+      'type' => 'equipment',
+      'status' => 'active',
+    ]);
+    $equipment->save();
+    $water = Asset::create([
+      'name' => 'Water asset',
+      'type' => 'water',
+      'status' => 'active',
+    ]);
+    $water->save();
+
     // Move the equipment asset into the water asset via an activity log.
     $movement = Log::create([
       'type' => 'activity',
@@ -116,6 +170,19 @@ class FarmUiViewsTest extends FarmBrowserTestBase {
     $this->drupalGet('/asset/' . $water->id() . '/assets');
     $this->assertSession()->statusCodeEquals(200);
     $this->assertSession()->pageTextContains($equipment->label());
+
+    // Delete all entities.
+    $this->deleteAllEntities();
+  }
+
+  /**
+   * Delete all entities.
+   */
+  protected function deleteAllEntities() {
+    foreach (['asset', 'log'] as $type) {
+      $storage = \Drupal::entityTypeManager()->getStorage($type);
+      $storage->delete($storage->loadMultiple());
+    }
   }
 
 }
