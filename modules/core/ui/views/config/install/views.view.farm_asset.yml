@@ -1841,11 +1841,15 @@ display:
             sort_order: asc
             number_of_records: 0
             format: default_summary
-          specify_validation: false
+          specify_validation: true
           validate:
-            type: none
+            type: 'entity:asset'
             fail: 'not found'
-          validate_options: {  }
+          validate_options:
+            bundles: {  }
+            access: false
+            operation: view
+            multiple: 0
       defaults:
         arguments: false
       display_description: ''
