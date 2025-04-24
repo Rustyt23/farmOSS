@@ -15,6 +15,13 @@ use Drupal\Core\Routing\RouteMatchInterface;
 class FarmAssetLogViewsAccessCheck implements AccessInterface {
 
   /**
+   * The asset storage.
+   *
+   * @var \Drupal\Core\Entity\EntityStorageInterface
+   */
+  protected $assetStorage;
+
+  /**
    * The log storage.
    *
    * @var \Drupal\Core\Entity\EntityStorageInterface
@@ -28,6 +35,7 @@ class FarmAssetLogViewsAccessCheck implements AccessInterface {
    *   The entity type manager service.
    */
   public function __construct(EntityTypeManagerInterface $entity_type_manager) {
+    $this->assetStorage = $entity_type_manager->getStorage('asset');
     $this->logStorage = $entity_type_manager->getStorage('log');
   }
 
@@ -39,15 +47,20 @@ class FarmAssetLogViewsAccessCheck implements AccessInterface {
    */
   public function access(RouteMatchInterface $route_match) {
 
-    // If there is no "asset" or "log_type" parameter, bail.
+    // Get the "asset" parameter and attempt to load the asset.
+    // If the asset cannot be loaded, allow access so that Views contextual
+    // filter validation returns a 404.
     $asset_id = $route_match->getParameter('asset');
-    $log_type = $route_match->getParameter('log_type');
-    if (empty($asset_id) || empty($log_type)) {
+    /** @var \Drupal\asset\Entity\AssetInterface|null $asset */
+    $asset = $this->assetStorage->load($asset_id);
+    if (is_null($asset)) {
       return AccessResult::allowed();
     }
 
-    // If the log type is "all", bail.
-    if ($log_type == 'all') {
+    // Get the "log_type" parameter. If it is empty or "all", allow access so
+    // that Views can handle it.
+    $log_type = $route_match->getParameter('log_type');
+    if (empty($log_type) || $log_type == 'all') {
       return AccessResult::allowed();
     }
 

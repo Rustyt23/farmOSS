@@ -77,7 +77,7 @@ class AssetLocation extends ArgumentPluginBase {
     }
 
     // Load the location asset, and bail if it's null.
-    /** @var \Drupal\asset\Entity\AssetInterface $location */
+    /** @var \Drupal\asset\Entity\AssetInterface|null $location */
     $location = $this->entityTypeManager->getStorage('asset')->load($this->argument);
     if (is_null($location)) {
       return;

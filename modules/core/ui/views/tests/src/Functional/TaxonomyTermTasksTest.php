@@ -164,6 +164,27 @@ class TaxonomyTermTasksTest extends FarmBrowserTestBase {
     $this->assertSession()->pageTextNotContains('Red Flowering Fava Planting');
     $this->assertSession()->pageTextContains('Red Flowering Fava Seeds');
     $this->assertSession()->pageTextNotContains('Pringle\'s Progress Oat Planting');
+
+    // Check that invalid term IDs are handled gracefully by the access check.
+    $this->drupalGet('/taxonomy/term/0/assets');
+    $this->assertSession()->statusCodeEquals(404);
+    $this->drupalGet('/taxonomy/term/-1/assets');
+    $this->assertSession()->statusCodeEquals(404);
+    $this->drupalGet('/taxonomy/term/foo/assets');
+    $this->assertSession()->statusCodeEquals(404);
+
+    // Check that an invalid entity_bundle parameter is handled gracefully by
+    // the access check. /taxonomy/term/%/assets/0 will be passed on to the
+    // Views contextual filter validation, so it should return a 404.
+    // /taxonomy/term/%/assets/-1 and /taxonomy/term/%/assets/foo will be caught
+    // by the access check, but will 403 because no assets will be found of that
+    // type.
+    $this->drupalGet("$fava_term_url/assets/0");
+    $this->assertSession()->statusCodeEquals(404);
+    $this->drupalGet("$fava_term_url/assets/-1");
+    $this->assertSession()->statusCodeEquals(403);
+    $this->drupalGet("$fava_term_url/assets/foo");
+    $this->assertSession()->statusCodeEquals(403);
   }
 
 }

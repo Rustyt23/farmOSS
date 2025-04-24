@@ -71,15 +71,22 @@ class FarmTaxonomyTermEntityViewsAccessCheck implements AccessInterface {
    */
   public function access(RouteMatchInterface $route_match) {
 
-    // If there is no "taxonomy_term" or "asset_type" parameter, bail.
+    // Get the "taxonomy_term" parameter and attempt to load the term.
+    // If the term cannot be loaded, allow access so that Views contextual
+    // filter validation returns a 404.
     $term_id = $route_match->getParameter('taxonomy_term');
-    $entity_bundle = $route_match->getParameter('entity_bundle');
-
-    if (empty($term_id) || empty($entity_bundle)) {
-      return AccessResult::forbidden();
+    /** @var \Drupal\taxonomy\TermInterface|null $term */
+    $term = $this->taxonomyTermStorage->load($term_id);
+    if (is_null($term)) {
+      return AccessResult::allowed();
     }
 
-    $term = $this->taxonomyTermStorage->load($term_id);
+    // Get the "entity_bundle" parameter. If it is empty, allow access so that
+    // Views can handle it.
+    $entity_bundle = $route_match->getParameter('entity_bundle');
+    if (empty($entity_bundle)) {
+      return AccessResult::allowed();
+    }
 
     // Loop through all the entity bundles of the base entity type for the view
     // and only return AccessResult::allowed() for those which have a taxonomy

@@ -50,15 +50,17 @@ class FarmLocationAssetViewsAccessCheck implements AccessInterface {
    */
   public function access(RouteMatchInterface $route_match) {
 
-    // If there is no "asset" parameter, bail.
+    // Get the "asset" parameter and attempt to load the asset.
+    // If the asset cannot be loaded, allow access so that Views contextual
+    // filter validation returns a 404.
     $asset_id = $route_match->getParameter('asset');
-    if (empty($asset_id)) {
+    /** @var \Drupal\asset\Entity\AssetInterface|null $asset */
+    $asset = $this->assetStorage->load($asset_id);
+    if (is_null($asset)) {
       return AccessResult::allowed();
     }
 
     // Allow access if the asset is a location.
-    /** @var \Drupal\asset\Entity\AssetInterface $asset */
-    $asset = $this->assetStorage->load($asset_id);
     $access = AccessResult::allowedIf($this->assetLocation->isLocation($asset));
 
     // Invalidate the access result when assets are changed.

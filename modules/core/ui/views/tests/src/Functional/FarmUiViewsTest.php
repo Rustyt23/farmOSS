@@ -192,6 +192,14 @@ class FarmUiViewsTest extends FarmBrowserTestBase {
     $this->drupalGet('/asset/' . $water->id() . '/assets');
     $this->assertSession()->statusCodeEquals(403);
 
+    // Check that invalid asset IDs are handled gracefully by the access check.
+    $this->drupalGet('/asset/0/assets');
+    $this->assertSession()->statusCodeEquals(404);
+    $this->drupalGet('/asset/-1/assets');
+    $this->assertSession()->statusCodeEquals(404);
+    $this->drupalGet('/asset/foo/assets');
+    $this->assertSession()->statusCodeEquals(404);
+
     // Delete all entities.
     $this->deleteAllEntities();
   }
@@ -234,6 +242,14 @@ class FarmUiViewsTest extends FarmBrowserTestBase {
     // Check that /asset/%/children returns a 403.
     $this->drupalGet('/asset/' . $parent->id() . '/children');
     $this->assertSession()->statusCodeEquals(403);
+
+    // Check that invalid asset IDs are handled gracefully by the access check.
+    $this->drupalGet('/asset/0/children');
+    $this->assertSession()->statusCodeEquals(404);
+    $this->drupalGet('/asset/-1/children');
+    $this->assertSession()->statusCodeEquals(404);
+    $this->drupalGet('/asset/foo/children');
+    $this->assertSession()->statusCodeEquals(404);
 
     // Delete all entities.
     $this->deleteAllEntities();
@@ -278,6 +294,14 @@ class FarmUiViewsTest extends FarmBrowserTestBase {
     $this->assertSession()->pageTextContains($observation->label());
     $this->assertSession()->pageTextContains('Reset');
     $this->assertSession()->pageTextContains('1101');
+
+    // Check that invalid asset IDs are handled gracefully by the access check.
+    $this->drupalGet('/asset/0/inventory');
+    $this->assertSession()->statusCodeEquals(404);
+    $this->drupalGet('/asset/-1/inventory');
+    $this->assertSession()->statusCodeEquals(404);
+    $this->drupalGet('/asset/foo/inventory');
+    $this->assertSession()->statusCodeEquals(404);
 
     // Delete all entities.
     $this->deleteAllEntities();
@@ -348,6 +372,26 @@ class FarmUiViewsTest extends FarmBrowserTestBase {
     $this->assertSession()->pageTextNotContains($activity->label());
     $this->assertSession()->pageTextContains($observation->label());
     $this->assertSession()->pageTextNotContains($unrelated->label());
+
+    // Check that invalid asset IDs are handled gracefully by the access check.
+    $this->drupalGet('/asset/0/logs');
+    $this->assertSession()->statusCodeEquals(404);
+    $this->drupalGet('/asset/-1/logs');
+    $this->assertSession()->statusCodeEquals(404);
+    $this->drupalGet('/asset/foo/logs');
+    $this->assertSession()->statusCodeEquals(404);
+
+    // Check that an invalid log_type parameter is handled gracefully by the
+    // access check. /asset/%/logs/0 will be passed on to the Views contextual
+    // filter validation, so it should return a 404. /asset/%/logs/-1 and
+    // /asset/%/logs/foo will be caught by the access check, but will 403
+    // because no logs will be found of that type.
+    $this->drupalGet('/asset/' . $equipment->id() . '/logs/0');
+    $this->assertSession()->statusCodeEquals(404);
+    $this->drupalGet('/asset/' . $equipment->id() . '/logs/-1');
+    $this->assertSession()->statusCodeEquals(403);
+    $this->drupalGet('/asset/' . $equipment->id() . '/logs/foo');
+    $this->assertSession()->statusCodeEquals(403);
 
     // Delete all entities.
     $this->deleteAllEntities();
