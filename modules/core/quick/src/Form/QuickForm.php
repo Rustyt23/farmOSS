@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Drupal\farm_quick\Form;
 
+use Drupal\Core\Entity\EntityMalformedException;
 use Drupal\Core\Form\BaseFormIdInterface;
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
@@ -141,7 +142,16 @@ class QuickForm extends FormBase implements BaseFormIdInterface {
    * {@inheritdoc}
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
-    $this->quickFormInstanceManager->getInstance($this->quickFormId)->getPlugin()->submitForm($form, $form_state);
+    try {
+      $this->quickFormInstanceManager->getInstance($this->quickFormId)->getPlugin()->submitForm($form, $form_state);
+    }
+
+    // Catch EntityMalformedException that may be thrown by quick trait methods
+    // for creating entities.
+    catch (EntityMalformedException $e) {
+      $this->messenger()->addError($this->t('Some entities could not be created because they were invalid.'));
+      $this->messenger()->addError($e->getMessage());
+    }
   }
 
 }
