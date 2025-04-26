@@ -72,7 +72,7 @@ function farm_ui_views_views_pre_view(ViewExecutable $view, $display_id, array &
     $today = date('Y-m-d', \Drupal::time()->getRequestTime());
     if ($display_id == 'block_upcoming') {
       $view->display_handler->setOption('use_more_text', t('View all upcoming logs'));
-      $view->display_handler->setOption('link_url', 'logs?status[]=pending&start=' . $today);
+      $view->display_handler->setOption('link_url', 'logs?status[]=pending&start=' . $today . '&order=timestamp&sort=asc');
     }
     elseif ($display_id == 'block_late') {
       $view->display_handler->setOption('use_more_text', t('View all late logs'));
