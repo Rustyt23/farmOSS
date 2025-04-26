@@ -52,12 +52,26 @@ class FarmUiViewsTest extends FarmBrowserTestBase {
    * Run all tests.
    */
   public function testAll() {
+
+    // Run each set of tests in a single method to decrease test time.
+    // Delete all entities between each set of tests.
     $this->doTestAssetViews();
+    $this->deleteAllEntities();
+
     $this->doTestLogViews();
+    $this->deleteAllEntities();
+
     $this->doTestAssetsByLocationView();
+    $this->deleteAllEntities();
+
     $this->doTestAssetChildrenView();
+    $this->deleteAllEntities();
+
     $this->doTestAssetInventoryView();
+    $this->deleteAllEntities();
+
     $this->doTestAssetLogsView();
+    $this->deleteAllEntities();
   }
 
   /**
@@ -97,9 +111,6 @@ class FarmUiViewsTest extends FarmBrowserTestBase {
     $this->assertSession()->pageTextContains('Manufacturer');
     $this->assertSession()->pageTextContains('Model');
     $this->assertSession()->pageTextContains('Serial number');
-
-    // Delete all entities.
-    $this->deleteAllEntities();
   }
 
   /**
@@ -140,9 +151,6 @@ class FarmUiViewsTest extends FarmBrowserTestBase {
     $this->assertSession()->statusCodeEquals(200);
     $this->assertSession()->pageTextContains('Foo activity');
     $this->assertSession()->pageTextNotContains('Baz activity');
-
-    // Delete all entities.
-    $this->deleteAllEntities();
   }
 
   /**
@@ -199,9 +207,6 @@ class FarmUiViewsTest extends FarmBrowserTestBase {
     $this->assertSession()->statusCodeEquals(404);
     $this->drupalGet('/asset/foo/assets');
     $this->assertSession()->statusCodeEquals(404);
-
-    // Delete all entities.
-    $this->deleteAllEntities();
   }
 
   /**
@@ -250,9 +255,6 @@ class FarmUiViewsTest extends FarmBrowserTestBase {
     $this->assertSession()->statusCodeEquals(404);
     $this->drupalGet('/asset/foo/children');
     $this->assertSession()->statusCodeEquals(404);
-
-    // Delete all entities.
-    $this->deleteAllEntities();
   }
 
   /**
@@ -302,9 +304,6 @@ class FarmUiViewsTest extends FarmBrowserTestBase {
     $this->assertSession()->statusCodeEquals(404);
     $this->drupalGet('/asset/foo/inventory');
     $this->assertSession()->statusCodeEquals(404);
-
-    // Delete all entities.
-    $this->deleteAllEntities();
   }
 
   /**
@@ -392,9 +391,6 @@ class FarmUiViewsTest extends FarmBrowserTestBase {
     $this->assertSession()->statusCodeEquals(403);
     $this->drupalGet('/asset/' . $equipment->id() . '/logs/foo');
     $this->assertSession()->statusCodeEquals(403);
-
-    // Delete all entities.
-    $this->deleteAllEntities();
   }
 
   /**
