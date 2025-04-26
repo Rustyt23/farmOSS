@@ -66,7 +66,6 @@ class LocationTest extends KernelTestBase {
     'asset',
     'geofield',
     'log',
-    'farm_entity_views',
     'farm_field',
     'farm_location',
     'farm_location_test',
@@ -93,9 +92,9 @@ class LocationTest extends KernelTestBase {
     $this->installEntitySchema('log');
     $this->installEntitySchema('user');
     $this->installConfig([
-      'farm_entity_views',
       'farm_location',
       'farm_location_test',
+      'farm_log_asset',
     ]);
 
     // Generate random WKT polygons.

@@ -5,7 +5,7 @@ dependencies:
     - asset
   enforced:
     module:
-      - farm_entity_views
+      - farm_log_asset
 id: farm_asset_reference
 label: 'Farm Asset Reference'
 module: views

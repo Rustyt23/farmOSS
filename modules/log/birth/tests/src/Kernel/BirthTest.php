@@ -29,7 +29,6 @@ class BirthTest extends KernelTestBase {
     'farm_birth',
     'farm_entity',
     'farm_entity_fields',
-    'farm_entity_views',
     'farm_field',
     'farm_id_tag',
     'farm_log',
@@ -57,10 +56,10 @@ class BirthTest extends KernelTestBase {
     $this->installEntitySchema('taxonomy_term');
     $this->installEntitySchema('user');
     $this->installConfig([
-      'farm_entity_views',
       'farm_animal',
       'farm_animal_type',
       'farm_birth',
+      'farm_log_asset',
     ]);
   }
 

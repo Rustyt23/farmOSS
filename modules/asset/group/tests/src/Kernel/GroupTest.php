@@ -58,7 +58,6 @@ class GroupTest extends KernelTestBase {
   protected static $modules = [
     'asset',
     'log',
-    'farm_entity_views',
     'farm_field',
     'farm_group',
     'farm_group_test',
@@ -85,9 +84,9 @@ class GroupTest extends KernelTestBase {
     $this->installEntitySchema('log');
     $this->installEntitySchema('user');
     $this->installConfig([
-      'farm_entity_views',
       'farm_group',
       'farm_group_test',
+      'farm_log_asset',
     ]);
   }
 
