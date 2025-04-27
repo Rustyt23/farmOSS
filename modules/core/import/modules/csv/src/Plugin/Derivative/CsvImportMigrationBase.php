@@ -213,11 +213,11 @@ abstract class CsvImportMigrationBase extends DeriverBase implements ContainerDe
 
     // This only supports certain field types.
     $supported_field_types = [
+      'boolean',
       'entity_reference',
       'list_string',
       'string',
       'timestamp',
-      'boolean',
     ];
     if (!in_array($field_definition->getType(), $supported_field_types)) {
       return;
@@ -235,6 +235,18 @@ abstract class CsvImportMigrationBase extends DeriverBase implements ContainerDe
 
     // Add configuration based on field type.
     switch ($field_definition->getType()) {
+
+      // Boolean.
+      case 'boolean':
+
+        // Parse with the boolean plugin.
+        $process[] = [
+          'plugin' => 'boolean',
+        ];
+
+        // Describe allowed values.
+        $description[] = $this->t('Accepts most boolean values.');
+        break;
 
       // Entity reference field.
       case 'entity_reference':
@@ -304,18 +316,6 @@ abstract class CsvImportMigrationBase extends DeriverBase implements ContainerDe
 
         // Describe allowed values.
         $description[] = $this->t('Accepts most date/time formats.');
-        break;
-
-      // Boolean.
-      case 'boolean':
-
-        // Parse with the boolean plugin.
-        $process[] = [
-          'plugin' => 'boolean',
-        ];
-
-        // Describe allowed values.
-        $description[] = $this->t('Accepts most boolean values.');
         break;
     }
 
