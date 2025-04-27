@@ -15,15 +15,23 @@ use Drupal\Core\Entity\EntityTypeInterface;
 function farm_import_csv_test_entity_base_field_info(EntityTypeInterface $entity_type) {
   $fields = [];
 
-  // Add a test string base field to logs.
+  // Add base fields to logs.
   if ($entity_type->id() == 'log') {
+
+    // Add a test string base field.
     $options = [
       'type' => 'string',
       'label' => t('Test string'),
     ];
     $fields['test_string'] = \Drupal::service('farm_field.factory')->baseFieldDefinition($options);
-  }
 
+    // Add an excluded test string base field.
+    $options = [
+      'type' => 'string',
+      'label' => t('Excluded test string'),
+    ];
+    $fields['excluded_test_string'] = \Drupal::service('farm_field.factory')->baseFieldDefinition($options);
+  }
   return $fields;
 }
 
@@ -33,10 +41,29 @@ function farm_import_csv_test_entity_base_field_info(EntityTypeInterface $entity
 function farm_import_csv_test_farm_import_csv_base_fields(string $entity_type) {
   $base_fields = [];
 
-  // Add test string base field to log CSV importers.
+  // Add log base fields to log CSV importers.
   if ($entity_type == 'log') {
+
+    // Add test string base field.
     $base_fields[] = 'test_string';
+
+    // Add excluded test string base field (so that it can be excluded).
+    $base_fields[] = 'excluded_test_string';
   }
 
   return $base_fields;
+}
+
+/**
+ * Implements hook_farm_import_csv_exclude_fields().
+ */
+function farm_import_csv_test_farm_import_csv_exclude_fields(string $entity_type) {
+  $exclude_fields = [];
+
+  // Exclude the excluded_test_string field from log CSV importers.
+  if ($entity_type == 'log') {
+    $exclude_fields[] = 'excluded_test_string';
+  }
+
+  return $exclude_fields;
 }

@@ -37,5 +37,25 @@ function hook_farm_import_csv_base_fields(string $entity_type) {
 }
 
 /**
+ * Excludes fields from default CSV importers.
+ *
+ * @param string $entity_type
+ *   The entity type machine name.
+ *
+ * @return array
+ *   Returns an array of field machine names to exclude from the entity type.
+ */
+function hook_farm_import_csv_exclude_fields(string $entity_type) {
+  $exclude_fields = [];
+
+  // Exclude my custom field from asset CSV importers.
+  if ($entity_type == 'asset') {
+    $exclude_fields[] = 'mycustomfield';
+  }
+
+  return $exclude_fields;
+}
+
+/**
  * @} End of "addtogroup hooks".
  */

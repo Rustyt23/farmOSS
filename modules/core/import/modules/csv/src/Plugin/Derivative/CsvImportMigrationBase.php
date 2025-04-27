@@ -148,12 +148,18 @@ abstract class CsvImportMigrationBase extends DeriverBase implements ContainerDe
       // Alter column descriptions for this bundle.
       $this->alterColumnDescriptions($definition['third_party_settings']['farm_import_csv']['columns'], $bundle->id());
 
+      // Ask modules for a list of fields to exclude.
+      $exclude_fields = $this->moduleHandler->invokeAll('farm_import_csv_exclude_fields', [$this->entityType]);
+
       // Add column mapping and descriptions for base fields provided by other
       // modules.
       $base_fields = $this->moduleHandler->invokeAll('farm_import_csv_base_fields', [$this->entityType]);
       foreach ($this->entityFieldManager->getBaseFieldDefinitions($this->entityType) as $field_definition) {
         /** @var \Drupal\Core\Field\BaseFieldDefinition $field_definition */
         if (!in_array($field_definition->getName(), $base_fields)) {
+          continue;
+        }
+        if (in_array($field_definition->getName(), $exclude_fields)) {
           continue;
         }
         $this->addFieldMapping($field_definition, $definition['process'], $definition['third_party_settings']['farm_import_csv']['columns']);
@@ -164,6 +170,9 @@ abstract class CsvImportMigrationBase extends DeriverBase implements ContainerDe
       if ($this->entityTypeManager->hasHandler($this->entityType, 'bundle_plugin')) {
         $bundle_fields = $this->entityTypeManager->getHandler($this->entityType, 'bundle_plugin')->getFieldDefinitions($bundle->id());
         foreach ($bundle_fields as $field_definition) {
+          if (in_array($field_definition->getName(), $exclude_fields)) {
+            continue;
+          }
           $this->addFieldMapping($field_definition, $definition['process'], $definition['third_party_settings']['farm_import_csv']['columns']);
         }
       }
@@ -199,12 +208,6 @@ abstract class CsvImportMigrationBase extends DeriverBase implements ContainerDe
       'boolean',
     ];
     if (!in_array($field_definition->getType(), $supported_field_types)) {
-      return;
-    }
-
-    // Do not include hidden fields.
-    $form_display_options = $field_definition->getDisplayOptions('form');
-    if (isset($form_display_options['region']) && $form_display_options['region'] == 'hidden') {
       return;
     }
 

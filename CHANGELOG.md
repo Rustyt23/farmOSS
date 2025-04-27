@@ -15,6 +15,7 @@ will ensure that all necessary changes have been applied before updating to 4.x.
 ### Added
 
 - [Add support for attributes in farmOS plugin types #963](https://github.com/farmOS/farmOS/pull/963)
+- [Add a hook for excluding fields from CSV importers #958](https://github.com/farmOS/farmOS/pull/958)
 
 ### Changed
 

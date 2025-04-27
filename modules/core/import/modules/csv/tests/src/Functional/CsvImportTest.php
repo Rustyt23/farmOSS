@@ -131,6 +131,7 @@ class CsvImportTest extends FarmBrowserTestBase {
     foreach ($log_columns as $description) {
       $this->assertSession()->pageTextContains($description);
     }
+    $this->assertSession()->pageTextNotContains('excluded test string');
     $this->drupalGet('import/csv/csv_taxonomy_term:animal_type');
     $this->assertSession()->statusCodeEquals(200);
     $this->assertSession()->pageTextContains('Download template');
