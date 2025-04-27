@@ -214,7 +214,9 @@ abstract class CsvImportMigrationBase extends DeriverBase implements ContainerDe
     // This only supports certain field types.
     $supported_field_types = [
       'boolean',
+      'decimal',
       'entity_reference',
+      'integer',
       'list_string',
       'string',
       'timestamp',
@@ -246,6 +248,16 @@ abstract class CsvImportMigrationBase extends DeriverBase implements ContainerDe
 
         // Describe allowed values.
         $description[] = $this->t('Accepts most boolean values.');
+        break;
+
+      // Number fields.
+      case 'integer':
+      case 'decimal':
+
+        // Map directly from source.
+        $process[] = [
+          'plugin' => 'get',
+        ];
         break;
 
       // Entity reference field.
