@@ -79,11 +79,10 @@ class FarmApiTest extends KernelTestBase {
     // Set the site name so that we can check for it in /api meta.farm info.
     \Drupal::configFactory()->getEditable('system.site')->set('name', 'API Test')->save();
 
-    // Allow JSON:API write operations and change the base path to /api.
-    // These would normally be done by farm_api_install(), which does not run
+    // Allow JSON:API write operations.
+    // This would normally be done by farm_api_install(), which does not run
     // in Kernel tests (it also does other things we don't need).
     \Drupal::configFactory()->getEditable('jsonapi.settings')->set('read_only', FALSE)->save();
-    \Drupal::configFactory()->getEditable('jsonapi_extras.settings')->set('path_prefix', 'api')->save();
 
     // Set up a user with the farm_manager role.
     $user = $this->setUpCurrentUser([], [], FALSE);
