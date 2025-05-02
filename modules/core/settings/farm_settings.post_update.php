@@ -8,10 +8,10 @@
 declare(strict_types=1);
 
 /**
- * Install farmOS Setup module.
+ * Implements hook_removed_post_updates().
  */
-function farm_settings_post_update_install_farm_setup(&$sandbox = NULL) {
-  if (!\Drupal::service('module_handler')->moduleExists('farm_setup')) {
-    \Drupal::service('module_installer')->install(['farm_setup']);
-  }
+function farm_settings_removed_post_updates() {
+  return [
+    'farm_settings_post_update_install_farm_setup' => '4.x',
+  ];
 }

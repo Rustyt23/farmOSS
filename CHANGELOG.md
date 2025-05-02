@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+Update to the latest farmOS 3.x release before attempting to update to farmOS
+4.x. All the automated database and configuration updates for the farmOS 2.x and
+3.x branches have been removed. Updating to the latest release on the 3.x branch
+will ensure that all necessary changes have been applied before updating to 4.x.
+
 ### Added
 
 - [Add support for attributes in farmOS plugin types #963](https://github.com/farmOS/farmOS/pull/963)
@@ -21,6 +26,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Removed
 
+- [Remove 2.x and 3.x update hooks](Remove 2.x and 3.x update hooks #962)
 - Remove [deprecated Drupal 7 asset migration source plugin](https://www.drupal.org/node/3410747).
 - Remove [deprecated Drupal 7 plan migration source plugin](https://www.drupal.org/node/3498065).
 - Remove [deprecated data stream migration plugins](https://www.drupal.org/node/3498069).

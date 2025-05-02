@@ -7,14 +7,11 @@
 
 declare(strict_types=1);
 
-use Drupal\system\Entity\Action;
-
 /**
- * Uninstall system.action.asset_group_action.
+ * Implements hook_removed_post_updates().
  */
-function farm_group_post_update_uninstall_asset_group_action(&$sandbox) {
-  $config = Action::load('asset_group_action');
-  if (!empty($config)) {
-    $config->delete();
-  }
+function farm_group_removed_post_updates() {
+  return [
+    'farm_group_post_update_uninstall_asset_group_action' => '4.x',
+  ];
 }

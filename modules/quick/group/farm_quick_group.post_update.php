@@ -7,23 +7,11 @@
 
 declare(strict_types=1);
 
-use Drupal\system\Entity\Action;
-
 /**
- * Install system.action.quick_group.
+ * Implements hook_removed_post_updates().
  */
-function farm_quick_group_post_update_install_quick_group_action(&$sandbox) {
-  $config = Action::create([
-    'id' => 'quick_group',
-    'label' => 'Assign group membership',
-    'type' => 'asset',
-    'plugin' => 'quick_group',
-    'dependencies' => [
-      'module' => [
-        'asset',
-        'farm_quick_group',
-      ],
-    ],
-  ]);
-  $config->save();
+function farm_quick_group_removed_post_updates() {
+  return [
+    'farm_quick_group_post_update_install_quick_group_action' => '4.x',
+  ];
 }

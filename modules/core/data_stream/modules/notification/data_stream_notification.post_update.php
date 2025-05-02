@@ -8,10 +8,10 @@
 declare(strict_types=1);
 
 /**
- * Install farmOS Notifications module.
+ * Implements hook_removed_post_updates().
  */
-function data_stream_notification_post_update_enable_farm_notification(&$sandbox = NULL) {
-  if (!\Drupal::service('module_handler')->moduleExists('farm_notification')) {
-    \Drupal::service('module_installer')->install(['farm_notification']);
-  }
+function data_stream_notification_removed_post_updates() {
+  return [
+    'data_stream_notification_post_update_enable_farm_notification' => '4.x',
+  ];
 }

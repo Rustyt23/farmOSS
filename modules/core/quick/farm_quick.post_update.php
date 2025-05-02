@@ -8,10 +8,10 @@
 declare(strict_types=1);
 
 /**
- * Install the new quick_form entity type.
+ * Implements hook_removed_post_updates().
  */
-function farm_quick_post_update_install_quick_form_entity_type(&$sandbox) {
-  \Drupal::entityDefinitionUpdateManager()->installEntityType(
-    \Drupal::entityTypeManager()->getDefinition('quick_form')
-  );
+function farm_quick_removed_post_updates() {
+  return [
+    'farm_quick_post_update_install_quick_form_entity_type' => '4.x',
+  ];
 }

@@ -7,23 +7,11 @@
 
 declare(strict_types=1);
 
-use Drupal\system\Entity\Action;
-
 /**
- * Install system.action.quick_movement.
+ * Implements hook_removed_post_updates().
  */
-function farm_quick_movement_post_update_install_quick_movement_action(&$sandbox) {
-  $config = Action::create([
-    'id' => 'quick_movement',
-    'label' => 'Record movement',
-    'type' => 'asset',
-    'plugin' => 'quick_movement',
-    'dependencies' => [
-      'module' => [
-        'asset',
-        'farm_quick_movement',
-      ],
-    ],
-  ]);
-  $config->save();
+function farm_quick_movement_removed_post_updates() {
+  return [
+    'farm_quick_movement_post_update_install_quick_movement_action' => '4.x',
+  ];
 }

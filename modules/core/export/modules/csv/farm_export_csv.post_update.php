@@ -7,38 +7,11 @@
 
 declare(strict_types=1);
 
-use Drupal\system\Entity\Action;
-
 /**
- * Create quantity csv action.
+ * Implements hook_removed_post_updates().
  */
-function farm_export_csv_post_update_quantity_csv_action(&$sandbox) {
-  $action = Action::create([
-    'id' => 'quantity_csv_action',
-    'label' => t('Export CSV'),
-    'type' => 'quantity',
-    'plugin' => 'entity:csv_action:quantity',
-    'configuration' => [],
-    'dependencies' => [
-      'module' => [
-        'farm_export_csv',
-        'quantity',
-      ],
-    ],
-  ]);
-  $action->save();
-  $action = Action::create([
-    'id' => 'log_quantity_csv_action',
-    'label' => t('Export Quantities CSV'),
-    'type' => 'log',
-    'plugin' => 'farm_export_csv:log_quantity',
-    'configuration' => [],
-    'dependencies' => [
-      'module' => [
-        'farm_export_csv',
-        'log_quantity',
-      ],
-    ],
-  ]);
-  $action->save();
+function farm_export_csv_removed_post_updates() {
+  return [
+    'farm_export_csv_post_update_quantity_csv_action' => '4.x',
+  ];
 }

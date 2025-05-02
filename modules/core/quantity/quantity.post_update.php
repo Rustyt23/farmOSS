@@ -7,47 +7,12 @@
 
 declare(strict_types=1);
 
-use Drupal\Core\Entity\Entity\EntityViewMode;
-use Drupal\system\Entity\Action;
-
 /**
- * Create plain text view mode for quantities.
+ * Implements hook_removed_post_updates().
  */
-function quantity_post_update_plain_text_view_mode(&$sandbox) {
-  $view_mode = EntityViewMode::create([
-    'id' => 'quantity.plain_text',
-    'label' => 'Plain text',
-    'targetEntityType' => 'quantity',
-    'cache' => FALSE,
-    'dependencies' => [
-      'enforced' => [
-        'module' => [
-          'quantity',
-        ],
-      ],
-      'module' => [
-        'quantity',
-      ],
-    ],
-  ]);
-  $view_mode->save();
-}
-
-/**
- * Create quantity delete action.
- */
-function quantity_post_update_delete_action(&$sandbox) {
-  $action = Action::create([
-    'id' => 'quantity_delete_action',
-    'label' => t('Delete quantity'),
-    'type' => 'quantity',
-    'plugin' => 'entity:delete_action:quantity',
-    'configuration' => [],
-    'dependencies' => [
-      'module' => [
-        'quantity',
-      ],
-    ],
-  ]);
-  $action->save();
+function quantity_removed_post_updates() {
+  return [
+    'quantity_post_update_plain_text_view_mode' => '4.x',
+    'quantity_post_update_delete_action' => '4.x',
+  ];
 }

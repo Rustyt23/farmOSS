@@ -7,14 +7,11 @@
 
 declare(strict_types=1);
 
-use Drupal\system\Entity\Action;
-
 /**
- * Uninstall system.action.asset_move_action.
+ * Implements hook_removed_post_updates().
  */
-function farm_location_post_update_uninstall_asset_move_action(&$sandbox) {
-  $config = Action::load('asset_move_action');
-  if (!empty($config)) {
-    $config->delete();
-  }
+function farm_location_removed_post_updates() {
+  return [
+    'farm_location_post_update_uninstall_asset_move_action' => '4.x',
+  ];
 }

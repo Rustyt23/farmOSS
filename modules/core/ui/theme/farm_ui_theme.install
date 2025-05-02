@@ -69,22 +69,8 @@ function farm_ui_theme_install() {
 }
 
 /**
- * Update Gin theme logo settings.
+ * Implements hook_update_last_removed().
  */
-function farm_ui_theme_update_9000(&$sandbox) {
-  $gin_settings = \Drupal::configFactory()->getEditable('gin.settings');
-  $gin_settings->set('logo.use_default', $gin_settings->get('icon_default'));
-  $gin_settings->clear('icon_default');
-  $gin_settings->set('logo.path', $gin_settings->get('icon_path'));
-  $gin_settings->clear('icon_path');
-  $gin_settings->save();
-}
-
-/**
- * Allow users to override Gin settings.
- */
-function farm_ui_theme_update_9001(&$sandbox) {
-  $gin_settings = \Drupal::configFactory()->getEditable('gin.settings');
-  $gin_settings->set('show_user_theme_settings', TRUE);
-  $gin_settings->save();
+function farm_ui_theme_update_last_removed() {
+  return 9001;
 }

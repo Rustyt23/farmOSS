@@ -7,17 +7,11 @@
 
 declare(strict_types=1);
 
-use Symfony\Component\Yaml\Yaml;
-
 /**
- * Create log categorize action.
+ * Implements hook_removed_post_updates().
  */
-function farm_log_category_post_update_create_log_categorize_action(&$sandbox = NULL) {
-  $action_id = 'log_categorize_action';
-  $config_path = \Drupal::service('extension.list.module')->getPath('farm_log_category') . "/config/optional/system.action.$action_id.yml";
-  $data = Yaml::parseFile($config_path);
-  \Drupal::configFactory()
-    ->getEditable("system.action.$action_id")
-    ->setData($data)
-    ->save(TRUE);
+function farm_log_category_removed_post_updates() {
+  return [
+    'farm_log_category_post_update_create_log_categorize_action' => '4.x',
+  ];
 }

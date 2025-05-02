@@ -8,10 +8,10 @@
 declare(strict_types=1);
 
 /**
- * Install farm_migrate as a dependency of farm_import_csv.
+ * Implements hook_removed_post_updates().
  */
-function farm_import_csv_post_update_install_farm_migrate(&$sandbox) {
-  if (!\Drupal::service('module_handler')->moduleExists('farm_migrate')) {
-    \Drupal::service('module_installer')->install(['farm_migrate']);
-  }
+function farm_import_csv_removed_post_updates() {
+  return [
+    'farm_import_csv_post_update_install_farm_migrate' => '4.x',
+  ];
 }

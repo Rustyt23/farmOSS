@@ -7,22 +7,11 @@
 
 declare(strict_types=1);
 
-use Drupal\farm_structure\Entity\FarmStructureType;
-
 /**
- * Add "Other" structure type configuration.
+ * Implements hook_removed_post_updates().
  */
-function farm_structure_post_update_add_other_structure_type(&$sandbox) {
-  $type = FarmStructureType::create([
-    'id' => 'other',
-    'label' => 'Other',
-    'dependencies' => [
-      'enforced' => [
-        'module' => [
-          'farm_structure',
-        ],
-      ],
-    ],
-  ]);
-  $type->save();
+function farm_structure_removed_post_updates() {
+  return [
+    'farm_structure_post_update_add_other_structure_type' => '4.x',
+  ];
 }
