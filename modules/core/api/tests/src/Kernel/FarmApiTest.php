@@ -41,7 +41,6 @@ class FarmApiTest extends KernelTestBase {
     'file',
     'image',
     'jsonapi',
-    'jsonapi_extras',
     'log',
     'options',
     'serialization',
@@ -66,7 +65,6 @@ class FarmApiTest extends KernelTestBase {
       'farm_log_asset',
       'farm_role_roles',
       'jsonapi',
-      'jsonapi_extras',
       'system',
     ]);
 
