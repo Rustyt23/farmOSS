@@ -7,9 +7,11 @@ namespace Drupal\data_stream_notification;
 use Drupal\Core\Cache\CacheBackendInterface;
 use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Plugin\DefaultPluginManager;
+use Drupal\data_stream_notification\Attribute\NotificationDelivery;
+use Drupal\data_stream_notification\Plugin\DataStream\NotificationDelivery\NotificationDeliveryInterface;
 
 /**
- * Plugin manager for notification delivery plugins.
+ * Notification Delivery plugin manager.
  */
 class NotificationDeliveryManager extends DefaultPluginManager implements NotificationDeliveryManagerInterface {
 
@@ -29,7 +31,8 @@ class NotificationDeliveryManager extends DefaultPluginManager implements Notifi
       'Plugin/DataStream/NotificationDelivery',
       $namespaces,
       $module_handler,
-      'Drupal\data_stream_notification\Plugin\DataStream\NotificationDelivery\NotificationDeliveryInterface',
+      NotificationDeliveryInterface::class,
+      NotificationDelivery::class,
       'Drupal\data_stream_notification\Annotation\NotificationDelivery',
     );
     $this->alterInfo('data_stream_notification_delivery_info');
