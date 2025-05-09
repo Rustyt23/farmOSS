@@ -204,6 +204,10 @@ class FarmApiTest extends KernelTestBase {
 
     // Test that view entity type resource is now available.
     $this->apiRequest('/api/view/view');
+
+    // Test that log entity type resources are now unavailable.
+    $this->apiRequest('/api/log/test', 'GET', [], 404);
+
   }
 
   /**

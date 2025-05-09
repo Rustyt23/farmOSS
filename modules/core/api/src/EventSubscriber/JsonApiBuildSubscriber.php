@@ -47,6 +47,7 @@ class JsonApiBuildSubscriber implements EventSubscriberInterface {
    */
   public function disableResources(ResourceTypeBuildEvent $event) {
     $allowed_entity_types = $this->moduleHandler->invokeAll('farm_api_allow_resource_types');
+    $this->moduleHandler->alter('farm_api_allow_resource_types', $allowed_entity_types);
     $entity_type = explode('--', $event->getResourceTypeName())[0];
     if (!in_array($entity_type, $allowed_entity_types)) {
       $event->disableResourceType();

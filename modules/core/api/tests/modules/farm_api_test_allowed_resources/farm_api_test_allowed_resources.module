@@ -15,3 +15,14 @@ function farm_api_test_allowed_resources_farm_api_allow_resource_types() {
   // Allow view entities.
   return ['view'];
 }
+
+/**
+ * Implements hook_farm_api_allow_resource_types_alter().
+ */
+function farm_api_test_allowed_resources_farm_api_allow_resource_types_alter(&$entity_types) {
+
+  // Disallow log entities.
+  if (in_array('log', $entity_types)) {
+    unset($entity_types[array_search('log', $entity_types)]);
+  }
+}

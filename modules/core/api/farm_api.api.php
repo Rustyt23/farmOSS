@@ -41,5 +41,19 @@ function hook_farm_api_allow_resource_types() {
 }
 
 /**
+ * Alter allowed entity types to be included in JSON:API resources.
+ *
+ * @param string[] $entity_types
+ *   An array of entity type IDs allowed by other modules.
+ */
+function hook_farm_api_allow_resource_types_alter(&$entity_types) {
+
+  // Disable view entities.
+  if (in_array('view', $entity_types)) {
+    unset($entity_types[array_search('view', $entity_types)]);
+  }
+}
+
+/**
  * @} End of "addtogroup hooks".
  */
