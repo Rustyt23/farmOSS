@@ -13,6 +13,15 @@ use Drupal\Core\Url;
 use Drupal\data_stream\Entity\DataStreamInterface;
 
 /**
+ * Implements hook_entity_type_build().
+ */
+function data_stream_entity_type_build(array &$entity_types) {
+  if (!empty($entity_types['data_stream'])) {
+    $entity_types['data_stream']->set('bundle_plugin_type', 'data_stream_type');
+  }
+}
+
+/**
  * Implements hook_ENTITY_TYPE_view_alter().
  */
 function data_stream_data_stream_view_alter(array &$build, DataStreamInterface $data_stream, EntityViewDisplayInterface $display) {
