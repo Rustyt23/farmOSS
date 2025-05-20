@@ -12,3 +12,6 @@ services:
     # Tests are failing on later versions of this image.
     # See https://github.com/farmOS/farmOS/issues/514
     image: selenium/standalone-chrome:4.1.2-20220217
+    # Increase shared memory size.
+    # See https://stackoverflow.com/questions/56218242/headless-chromium-on-docker-fails
+    shm_size: 2gb
