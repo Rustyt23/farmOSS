@@ -5,12 +5,25 @@ declare(strict_types=1);
 namespace Drupal\quantity\Entity;
 
 use Drupal\Core\Entity\Attribute\ContentEntityType;
+use Drupal\Core\Entity\ContentEntityDeleteForm;
+use Drupal\Core\Entity\ContentEntityForm;
 use Drupal\Core\Entity\EntityChangedTrait;
 use Drupal\Core\Entity\EntityTypeInterface;
+use Drupal\Core\Entity\Form\DeleteMultipleForm;
 use Drupal\Core\Entity\RevisionLogEntityTrait;
+use Drupal\Core\Entity\Sql\SqlContentEntityStorage;
 use Drupal\Core\Field\BaseFieldDefinition;
 use Drupal\Core\StringTranslation\TranslatableMarkup;
+use Drupal\entity\Menu\DefaultEntityLocalTaskProvider;
 use Drupal\entity\Revision\RevisionableContentEntityBase;
+use Drupal\entity\Routing\AdminHtmlRouteProvider;
+use Drupal\entity\Routing\RevisionRouteProvider;
+use Drupal\entity\UncacheableEntityAccessControlHandler;
+use Drupal\entity\UncacheableEntityPermissionProvider;
+use Drupal\quantity\Form\QuantityInlineForm;
+use Drupal\quantity\QuantityListBuilder;
+use Drupal\quantity\QuantityViewBuilder;
+use Drupal\quantity\QuantityViewsData;
 use Drupal\user\EntityOwnerTrait;
 
 /**
@@ -33,26 +46,26 @@ use Drupal\user\EntityOwnerTrait;
     'uuid' => 'uuid',
   ],
   handlers: [
-    'storage' => 'Drupal\Core\Entity\Sql\SqlContentEntityStorage',
-    'access' => '\Drupal\entity\UncacheableEntityAccessControlHandler',
-    'inline_form' => '\Drupal\quantity\Form\QuantityInlineForm',
-    'list_builder' => '\Drupal\quantity\QuantityListBuilder',
-    'permission_provider' => '\Drupal\entity\UncacheableEntityPermissionProvider',
-    'view_builder' => 'Drupal\quantity\QuantityViewBuilder',
-    'views_data' => 'Drupal\quantity\QuantityViewsData',
+    'storage' => SqlContentEntityStorage::class,
+    'access' => UncacheableEntityAccessControlHandler::class,
+    'inline_form' => QuantityInlineForm::class,
+    'list_builder' => QuantityListBuilder::class,
+    'permission_provider' => UncacheableEntityPermissionProvider::class,
+    'view_builder' => QuantityViewBuilder::class,
+    'views_data' => QuantityViewsData::class,
     'form' => [
-      'default' => 'Drupal\Core\Entity\ContentEntityForm',
-      'add' => 'Drupal\Core\Entity\ContentEntityForm',
-      'edit' => 'Drupal\Core\Entity\ContentEntityForm',
-      'delete' => 'Drupal\Core\Entity\ContentEntityDeleteForm',
-      'delete-multiple-confirm' => 'Drupal\Core\Entity\Form\DeleteMultipleForm',
+      'default' => ContentEntityForm::class,
+      'add' => ContentEntityForm::class,
+      'edit' => ContentEntityForm::class,
+      'delete' => ContentEntityDeleteForm::class,
+      'delete-multiple-confirm' => DeleteMultipleForm::class,
     ],
     'route_provider' => [
-      'default' => 'Drupal\entity\Routing\AdminHtmlRouteProvider',
-      'revision' => '\Drupal\entity\Routing\RevisionRouteProvider',
+      'default' => AdminHtmlRouteProvider::class,
+      'revision' => RevisionRouteProvider::class,
     ],
     'local_task_provider' => [
-      'default' => 'Drupal\entity\Menu\DefaultEntityLocalTaskProvider',
+      'default' => DefaultEntityLocalTaskProvider::class,
     ],
   ],
   links: [

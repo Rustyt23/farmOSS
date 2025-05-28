@@ -6,9 +6,12 @@ namespace Drupal\plan\Entity;
 
 use Drupal\Core\Entity\Attribute\ContentEntityType;
 use Drupal\Core\Entity\ContentEntityBase;
+use Drupal\Core\Entity\ContentEntityForm;
 use Drupal\Core\Entity\EntityTypeInterface;
+use Drupal\Core\Entity\Routing\AdminHtmlRouteProvider;
 use Drupal\Core\Field\BaseFieldDefinition;
 use Drupal\Core\StringTranslation\TranslatableMarkup;
+use Drupal\plan\Access\PlanRecordAccess;
 
 /**
  * Defines the Plan record relationship entity.
@@ -29,12 +32,12 @@ use Drupal\Core\StringTranslation\TranslatableMarkup;
     'bundle' => 'type',
   ],
   handlers: [
-    'access' => 'Drupal\plan\Access\PlanRecordAccess',
+    'access' => PlanRecordAccess::class,
     'form' => [
-      'edit' => 'Drupal\Core\Entity\ContentEntityForm',
+      'edit' => ContentEntityForm::class,
     ],
     'route_provider' => [
-      'default' => 'Drupal\Core\Entity\Routing\AdminHtmlRouteProvider',
+      'default' => AdminHtmlRouteProvider::class,
     ],
   ],
   links: [

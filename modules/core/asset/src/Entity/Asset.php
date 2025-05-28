@@ -5,13 +5,25 @@ declare(strict_types=1);
 namespace Drupal\asset\Entity;
 
 use Drupal\Core\Entity\Attribute\ContentEntityType;
+use Drupal\Core\Entity\ContentEntityDeleteForm;
 use Drupal\Core\Entity\EntityChangedTrait;
 use Drupal\Core\Entity\EntityTypeInterface;
+use Drupal\Core\Entity\EntityViewBuilder;
+use Drupal\Core\Entity\Form\DeleteMultipleForm;
 use Drupal\Core\Entity\RevisionLogEntityTrait;
 use Drupal\Core\Field\BaseFieldDefinition;
 use Drupal\Core\StringTranslation\TranslatableMarkup;
+use Drupal\asset\AssetListBuilder;
+use Drupal\asset\AssetStorage;
+use Drupal\asset\Form\AssetForm;
+use Drupal\entity\Menu\DefaultEntityLocalTaskProvider;
 use Drupal\entity\Revision\RevisionableContentEntityBase;
+use Drupal\entity\Routing\AdminHtmlRouteProvider;
+use Drupal\entity\Routing\RevisionRouteProvider;
+use Drupal\entity\UncacheableEntityAccessControlHandler;
+use Drupal\entity\UncacheableEntityPermissionProvider;
 use Drupal\user\EntityOwnerTrait;
+use Drupal\views\EntityViewsData;
 
 /**
  * Defines the asset entity.
@@ -34,24 +46,24 @@ use Drupal\user\EntityOwnerTrait;
     'langcode' => 'langcode',
   ],
   handlers: [
-    'storage' => 'Drupal\asset\AssetStorage',
-    'access' => '\Drupal\entity\UncacheableEntityAccessControlHandler',
-    'list_builder' => '\Drupal\asset\AssetListBuilder',
-    'permission_provider' => '\Drupal\entity\UncacheableEntityPermissionProvider',
-    'view_builder' => 'Drupal\Core\Entity\EntityViewBuilder',
-    'views_data' => 'Drupal\views\EntityViewsData',
+    'storage' => AssetStorage::class,
+    'access' => UncacheableEntityAccessControlHandler::class,
+    'list_builder' => AssetListBuilder::class,
+    'permission_provider' => UncacheableEntityPermissionProvider::class,
+    'view_builder' => EntityViewBuilder::class,
+    'views_data' => EntityViewsData::class,
     'form' => [
-      'add' => 'Drupal\asset\Form\AssetForm',
-      'edit' => 'Drupal\asset\Form\AssetForm',
-      'delete' => 'Drupal\Core\Entity\ContentEntityDeleteForm',
-      'delete-multiple-confirm' => 'Drupal\Core\Entity\Form\DeleteMultipleForm',
+      'add' => AssetForm::class,
+      'edit' => AssetForm::class,
+      'delete' => ContentEntityDeleteForm::class,
+      'delete-multiple-confirm' => DeleteMultipleForm::class,
     ],
     'route_provider' => [
-      'default' => 'Drupal\entity\Routing\AdminHtmlRouteProvider',
-      'revision' => '\Drupal\entity\Routing\RevisionRouteProvider',
+      'default' => AdminHtmlRouteProvider::class,
+      'revision' => RevisionRouteProvider::class,
     ],
     'local_task_provider' => [
-      'default' => '\Drupal\entity\Menu\DefaultEntityLocalTaskProvider',
+      'default' => DefaultEntityLocalTaskProvider::class,
     ],
   ],
   links: [

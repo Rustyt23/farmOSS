@@ -7,6 +7,7 @@ namespace Drupal\quantity\Entity;
 use Drupal\Core\Config\Entity\ConfigEntityBundleBase;
 use Drupal\Core\Entity\Attribute\ConfigEntityType;
 use Drupal\Core\StringTranslation\TranslatableMarkup;
+use Drupal\entity\BundleEntityAccessControlHandler;
 
 /**
  * Defines the quantity type entity.
@@ -24,7 +25,7 @@ use Drupal\Core\StringTranslation\TranslatableMarkup;
     'uuid' => 'uuid',
   ],
   handlers: [
-    'access' => '\Drupal\entity\BundleEntityAccessControlHandler',
+    'access' => BundleEntityAccessControlHandler::class,
   ],
   bundle_of: 'quantity',
   label_count: [

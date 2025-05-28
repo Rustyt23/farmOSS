@@ -6,7 +6,12 @@ namespace Drupal\asset\Entity;
 
 use Drupal\Core\Config\Entity\ConfigEntityBundleBase;
 use Drupal\Core\Entity\Attribute\ConfigEntityType;
+use Drupal\Core\Entity\EntityDeleteForm;
+use Drupal\Core\Entity\EntityViewBuilder;
 use Drupal\Core\StringTranslation\TranslatableMarkup;
+use Drupal\asset\AssetTypeListBuilder;
+use Drupal\asset\Form\AssetTypeForm;
+use Drupal\entity\Routing\DefaultHtmlRouteProvider;
 
 /**
  * Defines the asset type entity.
@@ -24,15 +29,15 @@ use Drupal\Core\StringTranslation\TranslatableMarkup;
     'uuid' => 'uuid',
   ],
   handlers: [
-    'list_builder' => 'Drupal\asset\AssetTypeListBuilder',
-    'view_builder' => 'Drupal\Core\Entity\EntityViewBuilder',
+    'list_builder' => AssetTypeListBuilder::class,
+    'view_builder' => EntityViewBuilder::class,
     'form' => [
-      'add' => 'Drupal\asset\Form\AssetTypeForm',
-      'edit' => 'Drupal\asset\Form\AssetTypeForm',
-      'delete' => '\Drupal\Core\Entity\EntityDeleteForm',
+      'add' => AssetTypeForm::class,
+      'edit' => AssetTypeForm::class,
+      'delete' => EntityDeleteForm::class,
     ],
     'route_provider' => [
-      'default' => 'Drupal\entity\Routing\DefaultHtmlRouteProvider',
+      'default' => DefaultHtmlRouteProvider::class,
     ],
   ],
   links: [

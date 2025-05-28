@@ -6,9 +6,15 @@ namespace Drupal\data_stream_notification\Entity;
 
 use Drupal\Core\Config\Entity\ConfigEntityBase;
 use Drupal\Core\Entity\Attribute\ConfigEntityType;
+use Drupal\Core\Entity\EntityDeleteForm;
 use Drupal\Core\Entity\EntityStorageInterface;
 use Drupal\Core\StringTranslation\TranslatableMarkup;
+use Drupal\data_stream_notification\DataStreamNotificationListBuilder;
 use Drupal\data_stream_notification\DataStreamNotificationPluginCollection;
+use Drupal\data_stream_notification\Form\DataStreamNotificationForm;
+use Drupal\entity\EntityAccessControlHandler;
+use Drupal\entity\EntityPermissionProvider;
+use Drupal\entity\Routing\DefaultHtmlRouteProvider;
 
 /**
  * Defines the DataStreamNotification entity.
@@ -27,16 +33,16 @@ use Drupal\data_stream_notification\DataStreamNotificationPluginCollection;
     'status' => 'status',
   ],
   handlers: [
-    'access' => '\Drupal\entity\EntityAccessControlHandler',
+    'access' => EntityAccessControlHandler::class,
     'form' => [
-      'add' => 'Drupal\data_stream_notification\Form\DataStreamNotificationForm',
-      'edit' => 'Drupal\data_stream_notification\Form\DataStreamNotificationForm',
-      'delete' => 'Drupal\Core\Entity\EntityDeleteForm',
+      'add' => DataStreamNotificationForm::class,
+      'edit' => DataStreamNotificationForm::class,
+      'delete' => EntityDeleteForm::class,
     ],
-    'list_builder' => 'Drupal\data_stream_notification\DataStreamNotificationListBuilder',
-    'permission_provider' => '\Drupal\entity\EntityPermissionProvider',
+    'list_builder' => DataStreamNotificationListBuilder::class,
+    'permission_provider' => EntityPermissionProvider::class,
     'route_provider' => [
-      'default' => 'Drupal\entity\Routing\DefaultHtmlRouteProvider',
+      'default' => DefaultHtmlRouteProvider::class,
     ],
   ],
   links: [

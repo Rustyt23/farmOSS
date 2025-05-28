@@ -6,11 +6,20 @@ namespace Drupal\data_stream\Entity;
 
 use Drupal\Core\Entity\Attribute\ContentEntityType;
 use Drupal\Core\Entity\ContentEntityBase;
+use Drupal\Core\Entity\ContentEntityDeleteForm;
 use Drupal\Core\Entity\EntityChangedTrait;
 use Drupal\Core\Entity\EntityTypeInterface;
+use Drupal\Core\Entity\EntityViewBuilder;
+use Drupal\Core\Entity\Form\DeleteMultipleForm;
 use Drupal\Core\Field\BaseFieldDefinition;
 use Drupal\Core\Field\FieldStorageDefinitionInterface;
 use Drupal\Core\StringTranslation\TranslatableMarkup;
+use Drupal\data_stream\Form\DataStreamForm;
+use Drupal\entity\EntityViewsData;
+use Drupal\entity\Menu\DefaultEntityLocalTaskProvider;
+use Drupal\entity\Routing\AdminHtmlRouteProvider;
+use Drupal\entity\UncacheableEntityAccessControlHandler;
+use Drupal\entity\UncacheableEntityPermissionProvider;
 
 /**
  * Defines the Data Stream entity.
@@ -29,21 +38,21 @@ use Drupal\Core\StringTranslation\TranslatableMarkup;
     'langcode' => 'langcode',
   ],
   handlers: [
-    'access' => '\Drupal\entity\UncacheableEntityAccessControlHandler',
-    'permission_provider' => '\Drupal\entity\UncacheableEntityPermissionProvider',
-    'view_builder' => 'Drupal\Core\Entity\EntityViewBuilder',
-    'views_data' => 'Drupal\entity\EntityViewsData',
+    'access' => UncacheableEntityAccessControlHandler::class,
+    'permission_provider' => UncacheableEntityPermissionProvider::class,
+    'view_builder' => EntityViewBuilder::class,
+    'views_data' => EntityViewsData::class,
     'form' => [
-      'add' => 'Drupal\data_stream\Form\DataStreamForm',
-      'edit' => 'Drupal\data_stream\Form\DataStreamForm',
-      'delete' => 'Drupal\Core\Entity\ContentEntityDeleteForm',
-      'delete-multiple-confirm' => 'Drupal\Core\Entity\Form\DeleteMultipleForm',
+      'add' => DataStreamForm::class,
+      'edit' => DataStreamForm::class,
+      'delete' => ContentEntityDeleteForm::class,
+      'delete-multiple-confirm' => DeleteMultipleForm::class,
     ],
     'route_provider' => [
-      'default' => 'Drupal\entity\Routing\AdminHtmlRouteProvider',
+      'default' => AdminHtmlRouteProvider::class,
     ],
     'local_task_provider' => [
-      'default' => '\Drupal\entity\Menu\DefaultEntityLocalTaskProvider',
+      'default' => DefaultEntityLocalTaskProvider::class,
     ],
   ],
   links: [

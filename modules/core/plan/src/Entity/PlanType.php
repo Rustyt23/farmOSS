@@ -6,7 +6,12 @@ namespace Drupal\plan\Entity;
 
 use Drupal\Core\Config\Entity\ConfigEntityBundleBase;
 use Drupal\Core\Entity\Attribute\ConfigEntityType;
+use Drupal\Core\Entity\EntityDeleteForm;
+use Drupal\Core\Entity\EntityViewBuilder;
 use Drupal\Core\StringTranslation\TranslatableMarkup;
+use Drupal\entity\Routing\DefaultHtmlRouteProvider;
+use Drupal\plan\Form\PlanTypeForm;
+use Drupal\plan\PlanTypeListBuilder;
 
 /**
  * Defines the plan type entity.
@@ -24,15 +29,15 @@ use Drupal\Core\StringTranslation\TranslatableMarkup;
     'uuid' => 'uuid',
   ],
   handlers: [
-    'list_builder' => 'Drupal\plan\PlanTypeListBuilder',
-    'view_builder' => 'Drupal\Core\Entity\EntityViewBuilder',
+    'list_builder' => PlanTypeListBuilder::class,
+    'view_builder' => EntityViewBuilder::class,
     'form' => [
-      'add' => 'Drupal\plan\Form\PlanTypeForm',
-      'edit' => 'Drupal\plan\Form\PlanTypeForm',
-      'delete' => '\Drupal\Core\Entity\EntityDeleteForm',
+      'add' => PlanTypeForm::class,
+      'edit' => PlanTypeForm::class,
+      'delete' => EntityDeleteForm::class,
     ],
     'route_provider' => [
-      'default' => 'Drupal\entity\Routing\DefaultHtmlRouteProvider',
+      'default' => DefaultHtmlRouteProvider::class,
     ],
   ],
   links: [

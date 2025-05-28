@@ -7,6 +7,8 @@ namespace Drupal\farm_land\Entity;
 use Drupal\Core\Config\Entity\ConfigEntityBase;
 use Drupal\Core\Entity\Attribute\ConfigEntityType;
 use Drupal\Core\StringTranslation\TranslatableMarkup;
+use Drupal\entity\EntityAccessControlHandler;
+use Drupal\entity\EntityPermissionProvider;
 
 /**
  * Defines the FarmLandType entity.
@@ -22,8 +24,8 @@ use Drupal\Core\StringTranslation\TranslatableMarkup;
     'label' => 'label',
   ],
   handlers: [
-    'access' => '\Drupal\entity\EntityAccessControlHandler',
-    'permission_provider' => '\Drupal\entity\EntityPermissionProvider',
+    'access' => EntityAccessControlHandler::class,
+    'permission_provider' => EntityPermissionProvider::class,
   ],
   config_export: [
     'id',

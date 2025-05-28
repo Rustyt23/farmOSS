@@ -6,9 +6,15 @@ namespace Drupal\farm_quick\Entity;
 
 use Drupal\Core\Config\Entity\ConfigEntityBase;
 use Drupal\Core\Entity\Attribute\ConfigEntityType;
+use Drupal\Core\Entity\EntityDeleteForm;
 use Drupal\Core\Entity\EntityStorageInterface;
 use Drupal\Core\Entity\EntityWithPluginCollectionInterface;
 use Drupal\Core\StringTranslation\TranslatableMarkup;
+use Drupal\entity\EntityAccessControlHandler;
+use Drupal\entity\EntityPermissionProvider;
+use Drupal\entity\Routing\DefaultHtmlRouteProvider;
+use Drupal\farm_quick\Form\QuickFormEntityForm;
+use Drupal\farm_quick\QuickFormListBuilder;
 use Drupal\farm_quick\QuickFormPluginCollection;
 
 /**
@@ -26,17 +32,16 @@ use Drupal\farm_quick\QuickFormPluginCollection;
     'label' => 'label',
   ],
   handlers: [
-    'access' => '\Drupal\entity\EntityAccessControlHandler',
-    'permission_provider' => '\Drupal\entity\EntityPermissionProvider',
-    'list_builder' => 'Drupal\farm_quick\QuickFormListBuilder',
+    'access' => EntityAccessControlHandler::class,
+    'permission_provider' => EntityPermissionProvider::class,
+    'list_builder' => QuickFormListBuilder::class,
     'form' => [
-      'add' => 'Drupal\farm_quick\Form\QuickFormEntityForm',
-      'edit' => 'Drupal\farm_quick\Form\QuickFormEntityForm',
-      'configure' => 'Drupal\farm_quick\Form\ConfigureQuickForm',
-      'delete' => '\Drupal\Core\Entity\EntityDeleteForm',
+      'add' => QuickFormEntityForm::class,
+      'edit' => QuickFormEntityForm::class,
+      'delete' => EntityDeleteForm::class,
     ],
     'route_provider' => [
-      'default' => 'Drupal\entity\Routing\DefaultHtmlRouteProvider',
+      'default' => DefaultHtmlRouteProvider::class,
     ],
   ],
   links: [

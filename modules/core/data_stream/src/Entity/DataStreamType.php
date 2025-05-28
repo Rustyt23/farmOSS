@@ -6,7 +6,11 @@ namespace Drupal\data_stream\Entity;
 
 use Drupal\Core\Config\Entity\ConfigEntityBundleBase;
 use Drupal\Core\Entity\Attribute\ConfigEntityType;
+use Drupal\Core\Entity\EntityDeleteForm;
 use Drupal\Core\StringTranslation\TranslatableMarkup;
+use Drupal\data_stream\DataStreamTypeListBuilder;
+use Drupal\data_stream\Form\DataStreamTypeForm;
+use Drupal\entity\Routing\DefaultHtmlRouteProvider;
 
 /**
  * Defines the Data Stream type entity.
@@ -24,14 +28,14 @@ use Drupal\Core\StringTranslation\TranslatableMarkup;
     'uuid' => 'uuid',
   ],
   handlers: [
-    'list_builder' => 'Drupal\data_stream\DataStreamTypeListBuilder',
+    'list_builder' => DataStreamTypeListBuilder::class,
     'form' => [
-      'add' => 'Drupal\data_stream\Form\DataStreamTypeForm',
-      'edit' => 'Drupal\data_stream\Form\DataStreamTypeForm',
-      'delete' => '\Drupal\Core\Entity\EntityDeleteForm',
+      'add' => DataStreamTypeForm::class,
+      'edit' => DataStreamTypeForm::class,
+      'delete' => EntityDeleteForm::class,
     ],
     'route_provider' => [
-      'default' => 'Drupal\entity\Routing\DefaultHtmlRouteProvider',
+      'default' => DefaultHtmlRouteProvider::class,
     ],
   ],
   links: [
