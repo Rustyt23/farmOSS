@@ -137,13 +137,10 @@ class InventoryTest extends KernelTestBase {
 
     // Add a pending adjustment, and confirm that it does not affect the current
     // inventory.
-    $log = $this->adjustInventory($asset, 'increment', '1');
-    $log->set('status', 'pending');
-    $log->save();
+    $this->adjustInventory($asset, 'increment', '1', '', NULL, NULL, 'pending');
 
     // Re-populate a cache value dependent on the asset's cache tags.
     $this->populateEntityTestCache($asset);
-    $log->save();
 
     $inventory = $this->assetInventory->getInventory($asset);
     $this->assertEquals('0', $inventory[0]['value'], 'Pending adjustments do not affect inventory.');
@@ -345,11 +342,13 @@ class InventoryTest extends KernelTestBase {
    * @param int|null $timestamp
    *   Optionally specify the timestamp when the adjustment occurred.
    *   If this is NULL (default), the current time will be used.
+   * @param string $status
+   *   Optionally specify the status of the adjustment log. Defaults to "done".
    *
    * @return \Drupal\log\Entity\LogInterface
    *   The log entity.
    */
-  protected function adjustInventory(AssetInterface $asset, string $adjustment, string $value, string $measure = '', string|int|null $units = NULL, $timestamp = NULL) {
+  protected function adjustInventory(AssetInterface $asset, string $adjustment, string $value, string $measure = '', string|int|null $units = NULL, $timestamp = NULL, $status = 'done') {
     $fraction = Fraction::createFromDecimal($value);
     /** @var \Drupal\quantity\Entity\Quantity $quantity */
     $quantity = Quantity::create([
@@ -375,7 +374,7 @@ class InventoryTest extends KernelTestBase {
     $log = Log::create([
       'type' => 'adjustment',
       'timestamp' => $timestamp,
-      'status' => 'done',
+      'status' => $status,
       'quantity' => [
         'target_id' => $quantity->id(),
         'target_revision_id' => $quantity->getRevisionId(),
