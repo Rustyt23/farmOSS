@@ -135,13 +135,12 @@ class InventoryTest extends KernelTestBase {
     // Assert that the asset's cache tags were invalidated.
     $this->assertEntityTestCache($asset, FALSE);
 
-    // Add a pending adjustment, and confirm that it does not affect the current
-    // inventory.
-    $this->adjustInventory($asset, 'increment', '1', '', NULL, NULL, 'pending');
-
     // Re-populate a cache value dependent on the asset's cache tags.
     $this->populateEntityTestCache($asset);
 
+    // Add a pending adjustment, and confirm that it does not affect the current
+    // inventory.
+    $this->adjustInventory($asset, 'increment', '1', '', NULL, NULL, 'pending');
     $inventory = $this->assetInventory->getInventory($asset);
     $this->assertEquals('0', $inventory[0]['value'], 'Pending adjustments do not affect inventory.');
 
@@ -152,10 +151,6 @@ class InventoryTest extends KernelTestBase {
     // the current inventory.
     $timestamp = \Drupal::time()->getRequestTime() + 86400;
     $this->adjustInventory($asset, 'increment', '1', '', NULL, $timestamp);
-
-    // Re-populate a cache value dependent on the asset's cache tags.
-    $this->populateEntityTestCache($asset);
-
     $inventory = $this->assetInventory->getInventory($asset);
     $this->assertEquals('0', $inventory[0]['value'], 'Future adjustments do not affect inventory.');
 
