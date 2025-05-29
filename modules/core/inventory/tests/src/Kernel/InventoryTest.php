@@ -150,13 +150,11 @@ class InventoryTest extends KernelTestBase {
 
     // Add an adjustment in the future, and confirm that it does not affect
     // the current inventory.
-    $log = $this->adjustInventory($asset, 'increment', '1');
-    $log->set('timestamp', \Drupal::time()->getRequestTime() + 86400);
-    $log->save();
+    $timestamp = \Drupal::time()->getRequestTime() + 86400;
+    $this->adjustInventory($asset, 'increment', '1', '', NULL, $timestamp);
 
     // Re-populate a cache value dependent on the asset's cache tags.
     $this->populateEntityTestCache($asset);
-    $log->save();
 
     $inventory = $this->assetInventory->getInventory($asset);
     $this->assertEquals('0', $inventory[0]['value'], 'Future adjustments do not affect inventory.');
