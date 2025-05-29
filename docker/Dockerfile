@@ -1,7 +1,7 @@
 ##
 # Alias the Drupal base image for use in other build stages.
 # We do this so that the Drupal image version only needs to be updated here.
-FROM drupal:10.4-php8.3 AS baseimage
+FROM drupal:11.1-php8.3 AS baseimage
 
 # Define common paths.
 # BUILD_PATH is where the farmOS codebase will be built.
@@ -63,6 +63,15 @@ RUN apt-get update && apt-get install -y \
     libgeos-c1v5 \
   && rm -rf /var/lib/apt/lists/* \
   && apt-get clean
+
+# Update SQLite4 to 3.45.1 for Drupal 11.
+# @todo Remove when the drupal:11.x Docker image is based on Debian 13.
+ARG TARGETARCH
+RUN SQLITE_VERSION=3.45.1 \
+  && if [ "${TARGETARCH}" = "arm" ]; then SQLITE_ARCH="armhf"; else SQLITE_ARCH="${TARGETARCH}"; fi \
+  && curl -Lo /tmp/libsqlite3-0.deb "https://snapshot.debian.org/archive/debian/20240506T211830Z/pool/main/s/sqlite3/libsqlite3-0_${SQLITE_VERSION}-1_${SQLITE_ARCH}.deb" \
+  && dpkg -i /tmp/libsqlite3-0.deb \
+  && rm /tmp/libsqlite3-0.deb
 
 # Set the COMPOSER_MEMORY_LIMIT environment variable to unlimited.
 ENV COMPOSER_MEMORY_LIMIT=-1
@@ -127,10 +136,11 @@ RUN cp -p ${BUILD_PATH}/web/core/phpunit.xml.dist ${BUILD_PATH}/phpunit.xml \
   && sed -i 's|bootstrap="tests/bootstrap.php"|bootstrap="web/core/tests/bootstrap.php"|g' ${BUILD_PATH}/phpunit.xml \
   && sed -i '/failOnWarning="true"/a \         failOnIncomplete="true"' ${BUILD_PATH}/phpunit.xml \
   && sed -i '/failOnWarning="true"/a \         failOnSkipped="true"' ${BUILD_PATH}/phpunit.xml \
+  && sed -i '/displayDetailsOnTestsThatTriggerDeprecations="true"/a \         displayDetailsOnSkippedTests="true"' ${BUILD_PATH}/phpunit.xml \
   && sed -i 's|name="SIMPLETEST_BASE_URL" value=""|name="SIMPLETEST_BASE_URL" value="http://www"|g' ${BUILD_PATH}/phpunit.xml \
   && sed -i 's|name="SIMPLETEST_DB" value=""|name="SIMPLETEST_DB" value="pgsql://farm:farm@db/farm"|g' ${BUILD_PATH}/phpunit.xml \
-  && sed -i 's|name="BROWSERTEST_OUTPUT_DIRECTORY" value=""|name="BROWSERTEST_OUTPUT_DIRECTORY" value="/var/www/html/sites/simpletest/browser_output"|g' ${BUILD_PATH}/phpunit.xml \
-  && sed -i 's|name="MINK_DRIVER_ARGS_WEBDRIVER" value='\'''\''|name="MINK_DRIVER_ARGS_WEBDRIVER" value='\''["chrome", { "chromeOptions": { "w3c": false, "args": ["--disable-gpu","--headless", "--no-sandbox"] } }, "http://chrome:4444/wd/hub"]'\''|g' ${BUILD_PATH}/phpunit.xml \
+  && sed -i 's|value="sites/simpletest/browser_output"|value="web/sites/simpletest/browser_output"|g' ${BUILD_PATH}/phpunit.xml \
+  && sed -i 's|name="MINK_DRIVER_ARGS_WEBDRIVER" value=""|name="MINK_DRIVER_ARGS_WEBDRIVER" value='\''["chrome", { "chromeOptions": { "w3c": false, "args": ["--disable-gpu","--headless", "--no-sandbox"] } }, "http://chrome:4444/wd/hub"]'\''|g' ${BUILD_PATH}/phpunit.xml \
   && sed -i 's|\./|\./web/core/|g' ${BUILD_PATH}/phpunit.xml \
   && sed -i 's|\.\./web/core/|\./web/|g' ${BUILD_PATH}/phpunit.xml \
   && sed -i 's|  </php>|    <env name="SYMFONY_DEPRECATIONS_HELPER" value="disabled"/>'"\n"'  </php>|g' ${BUILD_PATH}/phpunit.xml \

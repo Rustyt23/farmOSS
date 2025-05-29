@@ -5,58 +5,64 @@ declare(strict_types=1);
 namespace Drupal\farm_quick\Entity;
 
 use Drupal\Core\Config\Entity\ConfigEntityBase;
+use Drupal\Core\Entity\Attribute\ConfigEntityType;
+use Drupal\Core\Entity\EntityDeleteForm;
 use Drupal\Core\Entity\EntityStorageInterface;
 use Drupal\Core\Entity\EntityWithPluginCollectionInterface;
+use Drupal\Core\StringTranslation\TranslatableMarkup;
+use Drupal\entity\EntityAccessControlHandler;
+use Drupal\entity\EntityPermissionProvider;
+use Drupal\entity\Routing\DefaultHtmlRouteProvider;
+use Drupal\farm_quick\Form\QuickFormEntityForm;
+use Drupal\farm_quick\QuickFormListBuilder;
 use Drupal\farm_quick\QuickFormPluginCollection;
 
 /**
  * Defines the quick form instance config entity.
- *
- * @ConfigEntityType(
- *   id = "quick_form",
- *   label = @Translation("Quick form"),
- *   label_collection = @Translation("Quick forms"),
- *   label_singular = @Translation("quick form"),
- *   label_plural = @Translation("quick forms"),
- *   label_count = @PluralTranslation(
- *     singular = "@count quick form",
- *     plural = "@count quick forms",
- *   ),
- *   handlers = {
- *     "access" = "\Drupal\entity\EntityAccessControlHandler",
- *     "permission_provider" = "\Drupal\entity\EntityPermissionProvider",
- *     "list_builder" = "Drupal\farm_quick\QuickFormListBuilder",
- *     "form" = {
- *       "add" = "Drupal\farm_quick\Form\QuickFormEntityForm",
- *       "edit" = "Drupal\farm_quick\Form\QuickFormEntityForm",
- *       "configure" = "Drupal\farm_quick\Form\ConfigureQuickForm",
- *       "delete" = "\Drupal\Core\Entity\EntityDeleteForm",
- *     },
- *     "route_provider" = {
- *        "default" = "Drupal\entity\Routing\DefaultHtmlRouteProvider",
- *     },
- *   },
- *   admin_permission = "administer quick_form",
- *   entity_keys = {
- *     "id" = "id",
- *     "status" = "status",
- *     "label" = "label",
- *   },
- *   links = {
- *      "edit-form" = "/setup/quick/{quick_form}/edit",
- *      "delete-form" = "/setup/quick/{quick_form}/delete",
- *      "collection" = "/setup/quick"
- *   },
- *   config_export = {
- *     "id",
- *     "plugin",
- *     "label",
- *     "description",
- *     "helpText",
- *     "settings",
- *   },
- * )
  */
+#[ConfigEntityType(
+  id: 'quick_form',
+  label: new TranslatableMarkup('Quick form'),
+  label_collection: new TranslatableMarkup('Quick forms'),
+  label_singular: new TranslatableMarkup('quick form'),
+  label_plural: new TranslatableMarkup('quick forms'),
+  entity_keys: [
+    'id' => 'id',
+    'status' => 'status',
+    'label' => 'label',
+  ],
+  handlers: [
+    'access' => EntityAccessControlHandler::class,
+    'permission_provider' => EntityPermissionProvider::class,
+    'list_builder' => QuickFormListBuilder::class,
+    'form' => [
+      'add' => QuickFormEntityForm::class,
+      'edit' => QuickFormEntityForm::class,
+      'delete' => EntityDeleteForm::class,
+    ],
+    'route_provider' => [
+      'default' => DefaultHtmlRouteProvider::class,
+    ],
+  ],
+  links: [
+    'edit-form' => '/setup/quick/{quick_form}/edit',
+    'delete-form' => '/setup/quick/{quick_form}/delete',
+    'collection' => '/setup/quick',
+  ],
+  admin_permission: 'administer quick_form',
+  label_count: [
+    'singular' => '@count quick form',
+    'plural' => '@count quick forms',
+  ],
+  config_export: [
+    'id',
+    'plugin',
+    'label',
+    'description',
+    'helpText',
+    'settings',
+  ],
+)]
 class QuickFormInstance extends ConfigEntityBase implements QuickFormInstanceInterface, EntityWithPluginCollectionInterface {
 
   /**
@@ -152,21 +158,21 @@ class QuickFormInstance extends ConfigEntityBase implements QuickFormInstanceInt
    * {@inheritdoc}
    */
   public function getLabel() {
-    return $this->label;
+    return (string) $this->label;
   }
 
   /**
    * {@inheritdoc}
    */
   public function getDescription() {
-    return $this->description;
+    return (string) $this->description;
   }
 
   /**
    * {@inheritdoc}
    */
   public function getHelpText() {
-    return $this->helpText;
+    return (string) $this->helpText;
   }
 
   /**
