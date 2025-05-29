@@ -58,6 +58,10 @@ requirements:
 - Remove [EXIF Orientation](https://www.drupal.org/project/exif_orientation) module (see [Automatically rotate derivative images based on EXIF Orientation #941](https://github.com/farmOS/farmOS/pull/941)).
 - Remove [JSON:API Extras](https://www.drupal.org/project/jsonapi_extras) module (see [Remove dependency on JSON:API Extras module #964](https://github.com/farmOS/farmOS/pull/964)).
 
+### Fixed
+
+- [Fix plan_record bundle field providers #969](https://github.com/farmOS/farmOS/pull/969)
+
 ## farmOS 3.x
 
 farmOS 3.x release notes are available in the 3.x branch's
