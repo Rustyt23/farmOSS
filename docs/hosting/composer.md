@@ -4,7 +4,7 @@
 PHP-based projects and their dependencies. farmOS uses Composer in its
 automated build processes to generate packaged releases, including
 [Docker](/hosting/install/#farmos-in-docker) images and
-[tarballs](/hosting/install/#packaged-releases). These "official" releases
+[pre-built](/hosting/prebuilt/) "packaged" releases. These "official" releases
 only include the core farmOS modules.
 
 If you want to include additional modules that are created by yourself or

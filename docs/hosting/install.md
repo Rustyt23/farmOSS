@@ -8,19 +8,18 @@ documentation.
 Refer to the [farmOS server requirements](/hosting/requirements) documentation
 to understand what is needed for hosting farmOS.
 
-## farmOS Codebase
-
-There are two supported approaches to deploying the farmOS codebase:
-
-1. Using [Docker](https://docker.com) images.
-2. Using packaged releases.
+## farmOS Server
 
 Docker is the recommended method of hosting farmOS because it encapsulates the
-server level dependencies that farmOS needs.
+server level dependencies that farmOS needs. This documentation describes
+how to host farmOS with Docker.
 
 If you need to build a more customized farmOS codebase, including modules
 provided by the community, or custom modules written by yourself, see
 [Building farmOS with Composer](/hosting/composer).
+
+If you do not have access to Docker or Composer,
+[pre-built "packaged" releases](/hosting/prebuilt) are also available.
 
 ### farmOS in Docker
 
@@ -94,19 +93,6 @@ Bind-mount `php.ini` into the `www` service in your `docker-compose.yml` file:
       - './php.ini:/usr/local/etc/php/conf.d/farmos.ini'
 ```
 
-### Packaged releases
-
-An alternative to the Docker-based deployment is to install the farmOS codebase
-directly on the host server using a packaged release tarball, available from
-GitHub: [github.com/farmOS/farmOS/releases](https://github.com/farmOS/farmOS/releases)
-
-Packaged releases include everything from the `/opt/drupal` directory in the
-Docker image. This represents the entire farmOS codebase, pre-built with
-[Composer](https://getcomposer.org).
-
-Download and unpack the tarball on your web server, and point the document root
-at the `web` subdirectory.
-
 ## Installing farmOS
 
 Once you have the farmOS codebase deployed, and a database server provisioned,
@@ -132,9 +118,6 @@ Folder ownership and group should match the web server user. If you are using
 the farmOS Docker image (running Apache), this will be `www-data`.
 
 Folder permissions should be set to `770` or `drwxrwx---`.
-
-If you are using a packaged release outside of Docker, replace `/opt/drupal/web`
-with the path to the webroot directory that contains your `sites` directory.
 
 Finally, make sure to clear the caches by visiting Administration >
 Configuration > Development > Performance and clicking the `Clear all caches`

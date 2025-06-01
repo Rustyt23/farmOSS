@@ -63,6 +63,7 @@ nav:
     - Installing: hosting/install.md
     - Updating: hosting/update.md
     - Composer: hosting/composer.md
+    - Pre-built: hosting/prebuilt.md
     - Email: hosting/email.md
     - Translations: hosting/localization.md
     - v1 Migration: hosting/migration.md
