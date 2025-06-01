@@ -59,6 +59,7 @@ nav:
       - Documentation: development/environment/documentation.md
   - Hosting:
     - Introduction: hosting/index.md
+    - Requirements: hosting/requirements.md
     - Installing: hosting/install.md
     - Updating: hosting/update.md
     - Composer: hosting/composer.md
