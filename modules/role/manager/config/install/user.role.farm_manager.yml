@@ -3,18 +3,16 @@ status: true
 dependencies:
   enforced:
     module:
-      - farm_role_roles
-  module:
-    - farm_role
-id: farm_worker
-label: 'Worker'
+      - farm_manager
+id: farm_manager
+label: 'Manager'
 weight: 1
 is_admin: false
 permissions: { }
 third_party_settings:
   farm_role:
     access:
-      config: false
+      config: true
       entity:
         view all: true
         create all: true

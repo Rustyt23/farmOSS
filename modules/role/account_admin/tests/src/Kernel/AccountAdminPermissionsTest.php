@@ -22,8 +22,10 @@ class AccountAdminPermissionsTest extends KernelTestBase {
   protected static $modules = [
     'farm_role',
     'farm_account_admin',
-    'farm_role_roles',
+    'farm_manager',
     'farm_settings',
+    'farm_viewer',
+    'farm_worker',
     'role_delegation',
     'system',
     'user',
@@ -35,7 +37,12 @@ class AccountAdminPermissionsTest extends KernelTestBase {
   protected function setUp():void {
     parent::setUp();
     $this->installEntitySchema('user');
-    $this->installConfig(['farm_account_admin', 'farm_role_roles']);
+    $this->installConfig([
+      'farm_account_admin',
+      'farm_manager',
+      'farm_viewer',
+      'farm_worker',
+    ]);
   }
 
   /**

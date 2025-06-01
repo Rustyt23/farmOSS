@@ -20,13 +20,14 @@ Three default managed roles are provided with farmOS:
   changes. For example, if you need to share your farm records with an Organic
   Certifying Agent, you can give them a user account with the Viewer role.
 
-These roles can be disabled by uninstalling the "Default Roles" module.
-
 The "farmOS Account Admin Role" module provides another optional managed role
 called **Account Admin**, which has permission to add/edit/remove other users.
 This is useful in situations where an instance administrator wants to give
 someone the ability to set up other accounts, without giving them full admin
 access.
+
+Each of these roles is provided by a separate module that can be turned on/off
+individually.
 
 Permissions for managed roles cannot be modified through the UI. This is not
 generally an issue since the provided roles have been carefully tailored to

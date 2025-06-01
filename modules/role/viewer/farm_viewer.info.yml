@@ -1,0 +1,7 @@
+name: farmOS Viewer Role
+description: Provides a Viewer role.
+type: module
+package: farmOS Roles
+core_version_requirement: ^11
+dependencies:
+  - farm:farm_role

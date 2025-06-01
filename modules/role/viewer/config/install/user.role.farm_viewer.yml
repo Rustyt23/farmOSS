@@ -3,9 +3,7 @@ status: true
 dependencies:
   enforced:
     module:
-      - farm_role_roles
-  module:
-    - farm_role
+      - farm_viewer
 id: farm_viewer
 label: 'Viewer'
 weight: 1
