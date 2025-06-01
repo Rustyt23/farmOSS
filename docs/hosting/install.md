@@ -251,3 +251,22 @@ the end of normal visitor requests. This option is only recommended if your
 host system does not have the ability to configure cron jobs. It can cause
 random requests to farmOS to be very slow, as the cron tasks are tacked onto
 the normal page loading process.
+
+# OAuth2 keys
+
+If you need to connect to the farmOS API from an outside source, you will need
+to generate public/private keypair files for OAuth2 tokens. A `keys` directory
+must be created outside the webroot.
+
+As the system administrator (user 1), go to Administration > Configuration > Web
+Services > Consumers in the main menu, then click the Settings tab. The "Public
+Key" and "Private Key" paths can be set relative to the webroot (eg:
+`../keys/public.key` and `../keys/private.key`). The "Generate keys" button at
+the bottom of this form will attempt to create the key files. The `keys`
+directory must be writable by the HTTP server user (which is `www-user` in the
+official farmOS Docker container), but should be protected from writing after
+the keys are generated.
+
+If you are running farmOS in Docker with the recommended
+[Docker Compose](/hosting/docker/#docker-compose) configuration, a `keys`
+directory is bind-mounted to persist the generated keys.
