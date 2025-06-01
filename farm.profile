@@ -21,7 +21,6 @@ declare(strict_types=1);
 function farm_modules() {
   return [
     'base' => [
-      'farm_api' => t('farmOS API'),
       'farm_login' => t('Login with username or email.'),
       'farm_settings' => t('farmOS Settings forms'),
       'farm_setup' => t('farmOS Setup pages'),
@@ -66,6 +65,7 @@ function farm_modules() {
       'farm_comment_log' => t('Log comments'),
       'farm_comment_plan' => t('Plan comments'),
       'farm_map_mapbox' => t('Mapbox map layers: Satellite, Outdoors'),
+      'farm_api' => t('farmOS API'),
       'farm_api_oauth' => t('farmOS API OAuth2 Server'),
       'farm_api_default_consumer' => t('Default API Consumer'),
       'farm_fieldkit' => t('Field Kit integration'),

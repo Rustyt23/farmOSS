@@ -3,6 +3,10 @@
 farmOS provides an API that other applications and systems can use to read and
 write records via HTTP requests.
 
+## Install
+
+Install the farmOS API module (`farm_api`) to enable API endpoints.
+
 ## Client Libraries
 
 Client libraries are available for interacting with the farmOS API:
