@@ -17,7 +17,8 @@
         "phpstan/phpstan": "^2.1.17",
         "phpstan/phpstan-deprecation-rules": "^2.0",
         "phpunit/phpunit": "^11.5.3",
-        "phpspec/prophecy-phpunit": "^2"
+        "phpspec/prophecy-phpunit": "^2",
+        "sebastian/diff": "^6.0.2"
     },
     "conflict": {
         "drupal/drupal": "*"
