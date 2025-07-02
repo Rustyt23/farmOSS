@@ -2,15 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Drupal\farm_export_csv\Normalizer;
+namespace Drupal\farm_csv\Normalizer;
 
-use Drupal\farm_csv\Normalizer\ContentEntityNormalizer;
 use Drupal\quantity\Entity\QuantityInterface;
 
 /**
  * Normalizes quantity entities for CSV exports.
  */
-class QuantityCsvNormalizer extends ContentEntityNormalizer {
+class QuantityNormalizer extends ContentEntityNormalizer {
 
   /**
    * {@inheritdoc}
