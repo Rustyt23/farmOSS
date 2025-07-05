@@ -593,8 +593,7 @@ display:
           entity_field: status
           plugin_id: state_machine_state
           operator: in
-          value:
-            active: active
+          value: {  }
           group: 1
           exposed: true
           expose:
@@ -997,9 +996,9 @@ display:
           entity_type: plan
           entity_field: status
           plugin_id: state_machine_state
-          operator: in
+          operator: 'not in'
           value:
-            active: active
+            archived: archived
           group: 1
           exposed: false
           expose:
