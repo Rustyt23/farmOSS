@@ -35,8 +35,8 @@ class FarmApiTest extends KernelTestBase {
     'farm_entity',
     'farm_field',
     'farm_log_asset',
+    'farm_manager',
     'farm_role',
-    'farm_role_roles',
     'file',
     'image',
     'jsonapi',
@@ -60,7 +60,7 @@ class FarmApiTest extends KernelTestBase {
     $this->installConfig([
       'farm_api_test',
       'farm_log_asset',
-      'farm_role_roles',
+      'farm_manager',
       'jsonapi',
       'system',
     ]);

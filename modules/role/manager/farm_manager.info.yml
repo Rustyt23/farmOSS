@@ -1,0 +1,7 @@
+name: farmOS Manager Role
+description: Provides a Manager role.
+type: module
+package: farmOS Roles
+core_version_requirement: ^11
+dependencies:
+  - farm:farm_role
