@@ -37,7 +37,6 @@ class AssetCRUDTest extends AssetTestBase {
     $assert_session = $this->assertSession();
     $assert_session->statusCodeEquals(200);
     $assert_session->fieldExists('name[0][value]');
-    $assert_session->fieldExists('status');
     $assert_session->fieldExists('revision_log_message[0][value]');
     $assert_session->fieldExists('uid[0][target_id]');
     $assert_session->fieldExists('created[0][value][date]');

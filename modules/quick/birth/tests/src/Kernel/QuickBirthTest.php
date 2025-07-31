@@ -103,7 +103,6 @@ class QuickBirthTest extends QuickFormTestBase {
       'type' => 'animal',
       'animal_type' => $breed1,
       'sex' => 'F',
-      'status' => 'active',
     ]);
     $birth_mother->save();
     $genetic_mother = Asset::create([
@@ -111,7 +110,6 @@ class QuickBirthTest extends QuickFormTestBase {
       'type' => 'animal',
       'animal_type' => $breed2,
       'sex' => 'F',
-      'status' => 'active',
     ]);
     $genetic_mother->save();
     $genetic_father = Asset::create([
@@ -119,7 +117,6 @@ class QuickBirthTest extends QuickFormTestBase {
       'type' => 'animal',
       'animal_type' => $breed1,
       'sex' => 'M',
-      'status' => 'active',
     ]);
     $genetic_father->save();
 
@@ -131,7 +128,6 @@ class QuickBirthTest extends QuickFormTestBase {
       'land_type' => 'field',
       'is_fixed' => TRUE,
       'is_location' => TRUE,
-      'status' => 'active',
     ]);
     $location->save();
     $movement = Log::create([
@@ -148,7 +144,6 @@ class QuickBirthTest extends QuickFormTestBase {
     $group = Asset::create([
       'name' => 'Herd 1',
       'type' => 'group',
-      'status' => 'active',
     ]);
     $group->save();
 

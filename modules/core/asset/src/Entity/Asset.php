@@ -209,25 +209,6 @@ class Asset extends RevisionableContentEntityBase implements AssetInterface {
       ])
       ->setDisplayConfigurable('form', TRUE);
 
-    $fields['status'] = BaseFieldDefinition::create('state')
-      ->setLabel(t('Status'))
-      ->setDescription(t('Indicates the status of the asset.'))
-      ->setRevisionable(TRUE)
-      ->setRequired(TRUE)
-      ->setSetting('max_length', 255)
-      ->setDisplayOptions('view', [
-        'label' => 'hidden',
-        'type' => 'state_transition_form',
-        'weight' => 10,
-      ])
-      ->setDisplayOptions('form', [
-        'type' => 'options_select',
-        'weight' => 11,
-      ])
-      ->setDisplayConfigurable('form', TRUE)
-      ->setDisplayConfigurable('view', TRUE)
-      ->setSetting('workflow_callback', ['\Drupal\asset\Entity\Asset', 'getWorkflowId']);
-
     $fields['uid'] = BaseFieldDefinition::create('entity_reference')
       ->setLabel(t('Authored by'))
       ->setDescription(t('The user ID of author of the asset.'))
@@ -305,20 +286,6 @@ class Asset extends RevisionableContentEntityBase implements AssetInterface {
       ->setRevisionable(TRUE);
 
     return $fields;
-  }
-
-  /**
-   * Gets the workflow ID for the state field.
-   *
-   * @param \Drupal\asset\Entity\AssetInterface $asset
-   *   The asset entity.
-   *
-   * @return string
-   *   The workflow ID.
-   */
-  public static function getWorkflowId(AssetInterface $asset) {
-    $workflow = AssetType::load($asset->bundle())->getWorkflowId();
-    return $workflow;
   }
 
 }

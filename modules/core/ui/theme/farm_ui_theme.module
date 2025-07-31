@@ -333,7 +333,6 @@ function farm_ui_theme_farm_ui_theme_region_items(string $entity_type) {
           'is_fixed',
           'location',
           'owner',
-          'status',
           'type',
         ],
         'bottom' => [

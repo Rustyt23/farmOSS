@@ -12,9 +12,6 @@ asset.type.*:
     description:
       type: text
       label: 'Description'
-    workflow:
-      type: string
-      label: 'Workflow'
     new_revision:
       type: boolean
       label: 'Create new revision'

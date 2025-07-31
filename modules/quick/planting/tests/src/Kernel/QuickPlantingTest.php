@@ -171,7 +171,6 @@ class QuickPlantingTest extends QuickFormTestBase {
       'land_type' => 'field',
       'is_fixed' => TRUE,
       'is_location' => TRUE,
-      'status' => 'active',
     ]);
     $land1->save();
     $land2 = Asset::create([
@@ -180,7 +179,6 @@ class QuickPlantingTest extends QuickFormTestBase {
       'land_type' => 'field',
       'is_fixed' => TRUE,
       'is_location' => TRUE,
-      'status' => 'active',
     ]);
     $land2->save();
 
