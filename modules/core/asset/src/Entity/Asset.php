@@ -274,10 +274,30 @@ class Asset extends RevisionableContentEntityBase implements AssetInterface {
       ->setDescription(t('The time the asset was last edited.'))
       ->setRevisionable(TRUE);
 
-    $fields['archived'] = BaseFieldDefinition::create('timestamp')
-      ->setLabel(t('Timestamp'))
-      ->setDescription(t('The time the asset was archived.'))
-      ->setRevisionable(TRUE);
+    $fields['archived'] = BaseFieldDefinition::create('boolean')
+      ->setLabel(t('Archived'))
+      ->setDescription(t('Whether the asset is archived.'))
+      ->setRevisionable(TRUE)
+      ->setDefaultValue(FALSE)
+      ->setSetting('on_label', 'Yes')
+      ->setSetting('off_label', 'No')
+      ->setDisplayOptions('view', [
+        'label' => 'inline',
+        'type' => 'boolean',
+        'settings' => [
+          'format' => 'default',
+          'format_custom_false' => '',
+          'format_custom_true' => '',
+        ],
+        'weight' => 100,
+      ])
+      ->setDisplayOptions('form', [
+        'type' => 'boolean_checkbox',
+        'settings' => [
+          'display_label' => TRUE,
+        ],
+        'weight' => 100,
+      ]);
 
     $fields['last_archived'] = BaseFieldDefinition::create('timestamp')
       ->setLabel(t('Last Archived'))
