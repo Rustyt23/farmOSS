@@ -58,6 +58,7 @@ requirements (inherited from Drupal 11):
 - [The farm_account_admin role has moved to a new farm_account_admin module](https://www.drupal.org/node/3527786)
 - [The farm_manager, farm_worker, and farm_viewer roles have moved to their own modules](https://www.drupal.org/node/3527787)
 - [Allow plans without active status in farm_plan View #978](https://github.com/farmOS/farmOS/pull/978)
+- [Rename primary tab in edit forms to General #985](https://github.com/farmOS/farmOS/pull/985)
 
 ### Deprecated
 

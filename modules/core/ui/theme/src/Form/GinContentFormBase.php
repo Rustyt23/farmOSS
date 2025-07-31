@@ -89,7 +89,7 @@ class GinContentFormBase extends ContentEntityForm implements RenderCallbackInte
     $field_groups = [
       'default' => [
         'location' => 'main',
-        'title' => 'Default',
+        'title' => $this->t('General'),
         'weight' => -50,
       ],
       'meta' => [
@@ -143,11 +143,6 @@ class GinContentFormBase extends ContentEntityForm implements RenderCallbackInte
       // Disable HTML5 validation on the form element since it does not work
       // with vertical tabs.
       $form['#attributes']['novalidate'] = 'novalidate';
-
-      // Vary field group titles based on entity and bundle.
-      if (isset($field_groups['default'])) {
-        $field_groups['default']['title'] = $this->getBundleEntity()?->label() ?? $this->entity->getEntityType()->getLabel();
-      }
 
       // Create parent for all tabs.
       $form['tabs'] = [
