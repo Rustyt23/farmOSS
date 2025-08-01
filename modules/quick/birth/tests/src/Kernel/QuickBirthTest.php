@@ -219,7 +219,7 @@ class QuickBirthTest extends QuickFormTestBase {
     $this->assertEquals($genetic_mother->id(), $parents[0]->id());
     $this->assertEquals($genetic_father->id(), $parents[1]->id());
     $this->assertEquals('Child 1 notes', $child1->get('notes')->value);
-    $this->assertEquals('active', $child1->get('status')->value);
+    $this->assertEmpty($child1->get('archived')->value);
     $child_location = $this->assetLocation->getLocation($child1);
     $this->assertEquals($location->id(), reset($child_location)->id());
     $child_group = $this->groupMembership->getGroup($child1);
@@ -236,7 +236,7 @@ class QuickBirthTest extends QuickFormTestBase {
     $this->assertCount(2, $parents);
     $this->assertEquals($genetic_mother->id(), $parents[0]->id());
     $this->assertEquals($genetic_father->id(), $parents[1]->id());
-    $this->assertEquals('archived', $child2->get('status')->value);
+    $this->assertNotEmpty($child2->get('archived')->value);
     $child_location = $this->assetLocation->getLocation($child2);
     $this->assertEquals($location->id(), reset($child_location)->id());
     $child_group = $this->groupMembership->getGroup($child2);

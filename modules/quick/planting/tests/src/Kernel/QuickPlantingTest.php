@@ -90,7 +90,7 @@ class QuickPlantingTest extends QuickFormTestBase {
     $asset = $assets[1];
     $this->assertEquals('plant', $asset->bundle());
     $this->assertEquals("2022 Jacob's Cattle Bean", $asset->label());
-    $this->assertEquals('active', $asset->get('status')->value);
+    $this->assertEmpty($asset->get('archived')->value);
     $this->assertEquals($season->id(), $asset->get('season')->referencedEntities()[0]->id());
     $this->assertEquals($crop->id(), $asset->get('plant_type')->referencedEntities()[0]->id());
 
