@@ -114,6 +114,7 @@ function farm_ui_theme_farm_ui_theme_field_group_items(string $entity_type, stri
       $fields['is_location'] = 'location';
       $fields['is_fixed'] = 'location';
       $fields['id_tag'] = 'id_tag';
+      $fields['archived'] = 'meta';
       break;
 
     case 'log':
@@ -128,6 +129,7 @@ function farm_ui_theme_farm_ui_theme_field_group_items(string $entity_type, stri
       break;
 
     case 'plan':
+      $fields['archived'] = 'meta';
       break;
 
     case 'taxonomy_term':
