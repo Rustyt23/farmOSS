@@ -7,13 +7,13 @@ namespace Drupal\farm_input\Plugin\views\filter;
 use Drupal\Core\Database\Database;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\taxonomy\Plugin\views\filter\TaxonomyIndexTid;
+use Drupal\views\Attribute\ViewsFilter;
 use Drupal\views\Plugin\views\query\Sql;
 
 /**
  * Filter handler for log quantity material type terms.
- *
- * @ViewsFilter("log_quantity_material_type")
  */
+#[ViewsFilter("log_quantity_material_type")]
 class LogQuantityMaterialType extends TaxonomyIndexTid {
 
   /**

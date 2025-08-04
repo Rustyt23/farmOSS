@@ -9,6 +9,7 @@ use Drupal\Core\Entity\EntityTypeBundleInfoInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Entity\Sql\SqlContentEntityStorage;
 use Drupal\taxonomy\TermStorageInterface;
+use Drupal\views\Attribute\ViewsArgument;
 use Drupal\views\Plugin\views\argument\NumericArgument;
 use Drupal\views\Plugin\views\query\Sql;
 use Drupal\views\Views;
@@ -18,9 +19,8 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  * Argument handler for taxonomy term references from an arbitrary entity field.
  *
  * @ingroup views_argument_handlers
- *
- * @ViewsArgument("entity_taxonomy_term_reference")
  */
+#[ViewsArgument("entity_taxonomy_term_reference")]
 class EntityTaxonomyTermReferenceArgument extends NumericArgument {
 
   /**

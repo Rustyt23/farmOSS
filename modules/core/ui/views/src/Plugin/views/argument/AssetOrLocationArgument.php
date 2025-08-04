@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace Drupal\farm_ui_views\Plugin\views\argument;
 
+use Drupal\views\Attribute\ViewsArgument;
 use Drupal\views\Plugin\views\argument\ArgumentPluginBase;
 use Drupal\views\Plugin\views\query\Sql;
 use Drupal\views\Views;
 
 /**
  * Argument handler for both the asset and location fields on logs.
- *
- * @ViewsArgument("asset_or_location")
  */
+#[ViewsArgument("asset_or_location")]
 class AssetOrLocationArgument extends ArgumentPluginBase {
 
   /**

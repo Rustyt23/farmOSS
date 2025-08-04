@@ -59,7 +59,10 @@ return static function (RectorConfig $rectorConfig): void {
     new AnnotationToAttributeConfiguration('10.0.0', '10.0.0', 'FieldWidget', 'Drupal\Core\Field\Attribute\FieldWidget'),
     new AnnotationToAttributeConfiguration('10.0.0', '10.0.0', 'MigrateDestination', 'Drupal\migrate\Attribute\MigrateDestination'),
     new AnnotationToAttributeConfiguration('10.0.0', '10.0.0', 'MigrateProcessPlugin', 'Drupal\migrate\Attribute\MigrateProcess'),
+    new AnnotationToAttributeConfiguration('10.0.0', '10.0.0', 'ViewsArgument', 'Drupal\views\Attribute\ViewsArgument'),
     new AnnotationToAttributeConfiguration('10.0.0', '10.0.0', 'ViewsDisplayExtender', 'Drupal\views\Attribute\ViewsDisplayExtender'),
+    new AnnotationToAttributeConfiguration('10.0.0', '10.0.0', 'ViewsField', 'Drupal\views\Attribute\ViewsField'),
+    new AnnotationToAttributeConfiguration('10.0.0', '10.0.0', 'ViewsFilter', 'Drupal\views\Attribute\ViewsFilter'),
 
     // farmOS attributes.
     new AnnotationToAttributeConfiguration('10.0.0', '10.0.0', 'AssetType', 'Drupal\farm_entity\Attribute\AssetType'),

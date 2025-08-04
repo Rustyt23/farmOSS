@@ -6,6 +6,7 @@ namespace Drupal\farm_location\Plugin\views\argument;
 
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\farm_location\AssetLocationInterface;
+use Drupal\views\Attribute\ViewsArgument;
 use Drupal\views\Plugin\views\argument\ArgumentPluginBase;
 use Drupal\views\Plugin\views\query\Sql;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -14,9 +15,8 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  * An argument for filtering assets by their current location.
  *
  * @ingroup views_argument_handlers
- *
- * @ViewsArgument("asset_location")
  */
+#[ViewsArgument("asset_location")]
 class AssetLocation extends ArgumentPluginBase {
 
   /**
