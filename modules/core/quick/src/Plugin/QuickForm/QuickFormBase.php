@@ -38,6 +38,13 @@ class QuickFormBase extends PluginBase implements QuickFormInterface, ContainerF
   protected $entityTypeManager;
 
   /**
+   * Current user object.
+   *
+   * @var \Drupal\Core\Session\AccountInterface
+   */
+  protected $currentUser;
+
+  /**
    * Constructs a QuickFormBase object.
    *
    * @param array $configuration
@@ -48,12 +55,15 @@ class QuickFormBase extends PluginBase implements QuickFormInterface, ContainerF
    *   The plugin implementation definition.
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
    *   The entity type manager service.
+   * @param \Drupal\Core\Session\AccountInterface $current_user
+   *   Current user object.
    * @param \Drupal\Core\Messenger\MessengerInterface $messenger
    *   The messenger service.
    */
-  public function __construct(array $configuration, $plugin_id, $plugin_definition, EntityTypeManagerInterface $entity_type_manager, MessengerInterface $messenger) {
+  public function __construct(array $configuration, $plugin_id, $plugin_definition, EntityTypeManagerInterface $entity_type_manager, AccountInterface $current_user, MessengerInterface $messenger) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->entityTypeManager = $entity_type_manager;
+    $this->currentUser = $current_user;
     $this->messenger = $messenger;
   }
 
@@ -66,6 +76,7 @@ class QuickFormBase extends PluginBase implements QuickFormInterface, ContainerF
       $plugin_id,
       $plugin_definition,
       $container->get('entity_type.manager'),
+      $container->get('current_user'),
       $container->get('messenger'),
     );
   }

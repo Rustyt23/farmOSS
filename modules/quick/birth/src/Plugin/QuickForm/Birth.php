@@ -64,13 +64,6 @@ class Birth extends QuickFormBase {
   protected $assetLocation;
 
   /**
-   * Current user object.
-   *
-   * @var \Drupal\Core\Session\AccountInterface
-   */
-  protected $currentUser;
-
-  /**
    * Group membership service.
    *
    * @var \Drupal\farm_group\GroupMembershipInterface|null
@@ -88,6 +81,8 @@ class Birth extends QuickFormBase {
    *   The plugin implementation definition.
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
    *   The entity type manager service.
+   * @param \Drupal\Core\Session\AccountInterface $current_user
+   *   Current user object.
    * @param \Drupal\Core\Messenger\MessengerInterface $messenger
    *   The messenger service.
    * @param \Drupal\Core\Extension\ModuleHandlerInterface $module_handler
@@ -96,17 +91,14 @@ class Birth extends QuickFormBase {
    *   The config factory service.
    * @param \Drupal\farm_location\AssetLocationInterface $asset_location
    *   Asset location service.
-   * @param \Drupal\Core\Session\AccountInterface $current_user
-   *   Current user object.
    * @param \Drupal\farm_group\GroupMembershipInterface|null $group_membership
    *   Group membership service.
    */
-  public function __construct(array $configuration, $plugin_id, $plugin_definition, EntityTypeManagerInterface $entity_type_manager, MessengerInterface $messenger, ModuleHandlerInterface $module_handler, ConfigFactoryInterface $config_factory, AssetLocationInterface $asset_location, AccountInterface $current_user, ?GroupMembershipInterface $group_membership = NULL) {
-    parent::__construct($configuration, $plugin_id, $plugin_definition, $entity_type_manager, $messenger);
+  public function __construct(array $configuration, $plugin_id, $plugin_definition, EntityTypeManagerInterface $entity_type_manager, AccountInterface $current_user, MessengerInterface $messenger, ModuleHandlerInterface $module_handler, ConfigFactoryInterface $config_factory, AssetLocationInterface $asset_location, ?GroupMembershipInterface $group_membership = NULL) {
+    parent::__construct($configuration, $plugin_id, $plugin_definition, $entity_type_manager, $current_user, $messenger);
     $this->moduleHandler = $module_handler;
     $this->configFactory = $config_factory;
     $this->assetLocation = $asset_location;
-    $this->currentUser = $current_user;
     $this->groupMembership = $group_membership;
   }
 
@@ -119,11 +111,11 @@ class Birth extends QuickFormBase {
       $plugin_id,
       $plugin_definition,
       $container->get('entity_type.manager'),
+      $container->get('current_user'),
       $container->get('messenger'),
       $container->get('module_handler'),
       $container->get('config.factory'),
       $container->get('asset.location'),
-      $container->get('current_user'),
       // PHPStan level 3+ throws the following error on the next line:
       // Ternary operator condition is always true.
       // We ignore this because we know that the group.membership service will

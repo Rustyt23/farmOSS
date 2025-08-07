@@ -51,13 +51,6 @@ class Movement extends QuickFormBase implements QuickFormInterface {
   protected $assetLocation;
 
   /**
-   * Current user object.
-   *
-   * @var \Drupal\Core\Session\AccountInterface
-   */
-  protected $currentUser;
-
-  /**
    * Constructs a QuickFormBase object.
    *
    * @param array $configuration
@@ -68,17 +61,16 @@ class Movement extends QuickFormBase implements QuickFormInterface {
    *   The plugin implementation definition.
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
    *   The entity type manager service.
+   * @param \Drupal\Core\Session\AccountInterface $current_user
+   *   Current user object.
    * @param \Drupal\Core\Messenger\MessengerInterface $messenger
    *   The messenger service.
    * @param \Drupal\farm_location\AssetLocationInterface $asset_location
    *   Asset location service.
-   * @param \Drupal\Core\Session\AccountInterface $current_user
-   *   Current user object.
    */
-  public function __construct(array $configuration, $plugin_id, $plugin_definition, EntityTypeManagerInterface $entity_type_manager, MessengerInterface $messenger, AssetLocationInterface $asset_location, AccountInterface $current_user) {
-    parent::__construct($configuration, $plugin_id, $plugin_definition, $entity_type_manager, $messenger);
+  public function __construct(array $configuration, $plugin_id, $plugin_definition, EntityTypeManagerInterface $entity_type_manager, AccountInterface $current_user, MessengerInterface $messenger, AssetLocationInterface $asset_location) {
+    parent::__construct($configuration, $plugin_id, $plugin_definition, $entity_type_manager, $current_user, $messenger);
     $this->assetLocation = $asset_location;
-    $this->currentUser = $current_user;
   }
 
   /**
@@ -90,9 +82,9 @@ class Movement extends QuickFormBase implements QuickFormInterface {
       $plugin_id,
       $plugin_definition,
       $container->get('entity_type.manager'),
+      $container->get('current_user'),
       $container->get('messenger'),
       $container->get('asset.location'),
-      $container->get('current_user'),
     );
   }
 

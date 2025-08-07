@@ -77,7 +77,7 @@ class Harvest extends QuickFormBase {
     $form['timestamp'] = [
       '#type' => 'datetime',
       '#title' => $this->t('Date'),
-      '#default_value' => new DrupalDateTime('now', \Drupal::currentUser()->getTimeZone()),
+      '#default_value' => new DrupalDateTime('now', $this->currentUser->getTimeZone()),
       '#required' => TRUE,
     ];
 
@@ -300,7 +300,7 @@ class Harvest extends QuickFormBase implements ConfigurableQuickFormInterface {
     $form['timestamp'] = [
       '#type' => 'datetime',
       '#title' => $this->t('Date'),
-      '#default_value' => new DrupalDateTime('now', \Drupal::currentUser()->getTimeZone()),
+      '#default_value' => new DrupalDateTime('now', $this->currentUser->getTimeZone()),
       '#required' => TRUE,
     ];
 
@@ -590,7 +590,7 @@ class Harvest extends QuickFormBase {
     $form['timestamp'] = [
       '#type' => 'datetime',
       '#title' => $this->t('Date'),
-      '#default_value' => new DrupalDateTime('now', \Drupal::currentUser()->getTimeZone()),
+      '#default_value' => new DrupalDateTime('now', $this->currentUser->getTimeZone()),
       '#required' => TRUE,
     ];
 
