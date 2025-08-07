@@ -44,13 +44,6 @@ class Movement extends QuickFormBase implements QuickFormInterface {
   use WktTrait;
 
   /**
-   * The entity type manager service.
-   *
-   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
-   */
-  protected $entityTypeManager;
-
-  /**
    * Asset location service.
    *
    * @var \Drupal\farm_location\AssetLocationInterface
@@ -73,19 +66,17 @@ class Movement extends QuickFormBase implements QuickFormInterface {
    *   The plugin_id for the plugin instance.
    * @param mixed $plugin_definition
    *   The plugin implementation definition.
-   * @param \Drupal\Core\Messenger\MessengerInterface $messenger
-   *   The messenger service.
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
    *   The entity type manager service.
+   * @param \Drupal\Core\Messenger\MessengerInterface $messenger
+   *   The messenger service.
    * @param \Drupal\farm_location\AssetLocationInterface $asset_location
    *   Asset location service.
    * @param \Drupal\Core\Session\AccountInterface $current_user
    *   Current user object.
    */
-  public function __construct(array $configuration, $plugin_id, $plugin_definition, MessengerInterface $messenger, EntityTypeManagerInterface $entity_type_manager, AssetLocationInterface $asset_location, AccountInterface $current_user) {
-    parent::__construct($configuration, $plugin_id, $plugin_definition, $messenger);
-    $this->messenger = $messenger;
-    $this->entityTypeManager = $entity_type_manager;
+  public function __construct(array $configuration, $plugin_id, $plugin_definition, EntityTypeManagerInterface $entity_type_manager, MessengerInterface $messenger, AssetLocationInterface $asset_location, AccountInterface $current_user) {
+    parent::__construct($configuration, $plugin_id, $plugin_definition, $entity_type_manager, $messenger);
     $this->assetLocation = $asset_location;
     $this->currentUser = $current_user;
   }
@@ -98,8 +89,8 @@ class Movement extends QuickFormBase implements QuickFormInterface {
       $configuration,
       $plugin_id,
       $plugin_definition,
-      $container->get('messenger'),
       $container->get('entity_type.manager'),
+      $container->get('messenger'),
       $container->get('asset.location'),
       $container->get('current_user'),
     );

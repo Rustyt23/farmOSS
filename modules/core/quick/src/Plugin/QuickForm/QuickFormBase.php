@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Drupal\farm_quick\Plugin\QuickForm;
 
 use Drupal\Core\Access\AccessResult;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Messenger\MessengerInterface;
 use Drupal\Core\Messenger\MessengerTrait;
@@ -30,6 +31,13 @@ class QuickFormBase extends PluginBase implements QuickFormInterface, ContainerF
   protected string $quickId;
 
   /**
+   * The entity type manager service.
+   *
+   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
+   */
+  protected $entityTypeManager;
+
+  /**
    * Constructs a QuickFormBase object.
    *
    * @param array $configuration
@@ -38,11 +46,14 @@ class QuickFormBase extends PluginBase implements QuickFormInterface, ContainerF
    *   The plugin_id for the plugin instance.
    * @param mixed $plugin_definition
    *   The plugin implementation definition.
+   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
+   *   The entity type manager service.
    * @param \Drupal\Core\Messenger\MessengerInterface $messenger
    *   The messenger service.
    */
-  public function __construct(array $configuration, $plugin_id, $plugin_definition, MessengerInterface $messenger) {
+  public function __construct(array $configuration, $plugin_id, $plugin_definition, EntityTypeManagerInterface $entity_type_manager, MessengerInterface $messenger) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
+    $this->entityTypeManager = $entity_type_manager;
     $this->messenger = $messenger;
   }
 
@@ -54,7 +65,8 @@ class QuickFormBase extends PluginBase implements QuickFormInterface, ContainerF
       $configuration,
       $plugin_id,
       $plugin_definition,
-      $container->get('messenger')
+      $container->get('entity_type.manager'),
+      $container->get('messenger'),
     );
   }
 

@@ -43,13 +43,6 @@ class Birth extends QuickFormBase {
   use QuickStringTrait;
 
   /**
-   * The entity type manager service.
-   *
-   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
-   */
-  protected $entityTypeManager;
-
-  /**
    * The module handler.
    *
    * @var \Drupal\Core\Extension\ModuleHandlerInterface
@@ -93,10 +86,10 @@ class Birth extends QuickFormBase {
    *   The plugin_id for the plugin instance.
    * @param mixed $plugin_definition
    *   The plugin implementation definition.
-   * @param \Drupal\Core\Messenger\MessengerInterface $messenger
-   *   The messenger service.
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
    *   The entity type manager service.
+   * @param \Drupal\Core\Messenger\MessengerInterface $messenger
+   *   The messenger service.
    * @param \Drupal\Core\Extension\ModuleHandlerInterface $module_handler
    *   The module handler.
    * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
@@ -108,9 +101,8 @@ class Birth extends QuickFormBase {
    * @param \Drupal\farm_group\GroupMembershipInterface|null $group_membership
    *   Group membership service.
    */
-  public function __construct(array $configuration, $plugin_id, $plugin_definition, MessengerInterface $messenger, EntityTypeManagerInterface $entity_type_manager, ModuleHandlerInterface $module_handler, ConfigFactoryInterface $config_factory, AssetLocationInterface $asset_location, AccountInterface $current_user, ?GroupMembershipInterface $group_membership = NULL) {
-    parent::__construct($configuration, $plugin_id, $plugin_definition, $messenger);
-    $this->entityTypeManager = $entity_type_manager;
+  public function __construct(array $configuration, $plugin_id, $plugin_definition, EntityTypeManagerInterface $entity_type_manager, MessengerInterface $messenger, ModuleHandlerInterface $module_handler, ConfigFactoryInterface $config_factory, AssetLocationInterface $asset_location, AccountInterface $current_user, ?GroupMembershipInterface $group_membership = NULL) {
+    parent::__construct($configuration, $plugin_id, $plugin_definition, $entity_type_manager, $messenger);
     $this->moduleHandler = $module_handler;
     $this->configFactory = $config_factory;
     $this->assetLocation = $asset_location;
@@ -126,8 +118,8 @@ class Birth extends QuickFormBase {
       $configuration,
       $plugin_id,
       $plugin_definition,
-      $container->get('messenger'),
       $container->get('entity_type.manager'),
+      $container->get('messenger'),
       $container->get('module_handler'),
       $container->get('config.factory'),
       $container->get('asset.location'),

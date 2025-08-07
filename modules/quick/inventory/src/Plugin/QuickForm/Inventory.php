@@ -43,13 +43,6 @@ class Inventory extends QuickFormBase implements ConfigurableQuickFormInterface 
   use QuickTermTrait;
 
   /**
-   * The entity type manager service.
-   *
-   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
-   */
-  protected $entityTypeManager;
-
-  /**
    * Asset inventory service.
    *
    * @var \Drupal\farm_inventory\AssetInventoryInterface
@@ -72,19 +65,17 @@ class Inventory extends QuickFormBase implements ConfigurableQuickFormInterface 
    *   The plugin_id for the plugin instance.
    * @param mixed $plugin_definition
    *   The plugin implementation definition.
-   * @param \Drupal\Core\Messenger\MessengerInterface $messenger
-   *   The messenger service.
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
    *   The entity type manager service.
+   * @param \Drupal\Core\Messenger\MessengerInterface $messenger
+   *   The messenger service.
    * @param \Drupal\farm_inventory\AssetInventoryInterface $asset_inventory
    *   Asset inventory service.
    * @param \Drupal\Core\Session\AccountInterface $current_user
    *   Current user object.
    */
-  public function __construct(array $configuration, $plugin_id, $plugin_definition, MessengerInterface $messenger, EntityTypeManagerInterface $entity_type_manager, AssetInventoryInterface $asset_inventory, AccountInterface $current_user) {
-    parent::__construct($configuration, $plugin_id, $plugin_definition, $messenger);
-    $this->messenger = $messenger;
-    $this->entityTypeManager = $entity_type_manager;
+  public function __construct(array $configuration, $plugin_id, $plugin_definition, EntityTypeManagerInterface $entity_type_manager, MessengerInterface $messenger, AssetInventoryInterface $asset_inventory, AccountInterface $current_user) {
+    parent::__construct($configuration, $plugin_id, $plugin_definition, $entity_type_manager, $messenger);
     $this->assetInventory = $asset_inventory;
     $this->currentUser = $current_user;
   }
@@ -97,8 +88,8 @@ class Inventory extends QuickFormBase implements ConfigurableQuickFormInterface 
       $configuration,
       $plugin_id,
       $plugin_definition,
-      $container->get('messenger'),
       $container->get('entity_type.manager'),
+      $container->get('messenger'),
       $container->get('asset.inventory'),
       $container->get('current_user'),
     );
