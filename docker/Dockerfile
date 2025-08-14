@@ -59,8 +59,8 @@ RUN apt-get update && apt-get install -y \
     git unzip \
     # Install postgresql-client so Drush can connect to the database.
     postgresql-client \
-    # Install libgeos-c1v5 so geos php extension can use libgeos_c.so.1.
-    libgeos-c1v5 \
+    # Install libgeos-c1t64 so geos php extension can use libgeos_c.so.1.
+    libgeos-c1t64 \
   && rm -rf /var/lib/apt/lists/* \
   && apt-get clean
 
