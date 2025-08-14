@@ -1,7 +1,7 @@
 ##
 # Alias the Drupal base image for use in other build stages.
 # We do this so that the Drupal image version only needs to be updated here.
-FROM drupal:11.1-php8.4-apache-bookworm AS baseimage
+FROM drupal:11.1-php8.4-apache-trixie AS baseimage
 
 # Define common paths.
 # BUILD_PATH is where the farmOS codebase will be built.
@@ -19,7 +19,7 @@ FROM baseimage AS php-dependencies
 
 # Build and install the GEOS PHP extension.
 # See https://git.osgeo.org/gitea/geos/php-geos
-ARG PHP_GEOS_VERSION=e77d5a16abbf89a59d947d1fe49381a944762c9d
+ARG PHP_GEOS_VERSION=dfe1ab17b0f155cc315bc13c75689371676e02e1
 ADD https://github.com/libgeos/php-geos/archive/${PHP_GEOS_VERSION}.tar.gz /opt/php-geos.tar.gz
 RUN apt-get update && apt-get install -y libgeos-dev \
   && ( tar xzf /opt/php-geos.tar.gz -C /opt/ \
@@ -59,19 +59,10 @@ RUN apt-get update && apt-get install -y \
     git unzip \
     # Install postgresql-client so Drush can connect to the database.
     postgresql-client \
-    # Install libgeos-c1v5 so geos php extension can use libgeos_c.so.1.
-    libgeos-c1v5 \
+    # Install libgeos-c1t64 so geos php extension can use libgeos_c.so.1.
+    libgeos-c1t64 \
   && rm -rf /var/lib/apt/lists/* \
   && apt-get clean
-
-# Update SQLite4 to 3.45.1 for Drupal 11.
-# @todo Remove when the drupal:11.x Docker image is based on Debian 13.
-ARG TARGETARCH
-RUN SQLITE_VERSION=3.45.1 \
-  && if [ "${TARGETARCH}" = "arm" ]; then SQLITE_ARCH="armhf"; else SQLITE_ARCH="${TARGETARCH}"; fi \
-  && curl -Lo /tmp/libsqlite3-0.deb "https://snapshot.debian.org/archive/debian/20240506T211830Z/pool/main/s/sqlite3/libsqlite3-0_${SQLITE_VERSION}-1_${SQLITE_ARCH}.deb" \
-  && dpkg -i /tmp/libsqlite3-0.deb \
-  && rm /tmp/libsqlite3-0.deb
 
 # Set the COMPOSER_MEMORY_LIMIT environment variable to unlimited.
 ENV COMPOSER_MEMORY_LIMIT=-1
