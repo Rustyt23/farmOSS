@@ -18,6 +18,7 @@ class IdTagTypeConstraintValidator extends ConstraintValidator {
    */
   public function validate($value, Constraint $constraint) {
     /** @var \Drupal\Core\Field\FieldItemListInterface $value */
+    /** @var \Drupal\farm_id_tag\Plugin\Validation\Constraint\IdTagTypeConstraint $constraint */
 
     // Bail if it is an empty field.
     if ($value->isEmpty()) {
@@ -34,11 +35,6 @@ class IdTagTypeConstraintValidator extends ConstraintValidator {
         continue;
       }
       if (!in_array($id_tag->type, $valid_types)) {
-        // PHPStan level 2+ throws the following error on the next line:
-        // Access to an undefined property
-        // Symfony\Component\Validator\Constraint::$message.
-        // We ignore this because we are following Drupal core's pattern.
-        // @phpstan-ignore property.notFound
         $this->context->addViolation($constraint->message, ['@type' => $id_tag->type]);
       }
     }
