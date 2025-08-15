@@ -145,10 +145,8 @@ function farm_entity_entity_presave(EntityInterface $entity) {
     return;
   }
 
-  // Force create new revision as json api doesn't do that by default.
-  // @see https://www.drupal.org/project/drupal/issues/2993557
-  // @see https://www.drupal.org/project/drupal/issues/2795279
-  // @see https://github.com/json-api/json-api/pull/824
+  // Always create new revisions when an entity is saved.
+  // This ensures a proper audit trail is available for important records.
   $entity_type = $entity->get($entity->getEntityType()->getKey('bundle'))->entity;
   if (
     $entity_type instanceof RevisionableEntityBundleInterface
