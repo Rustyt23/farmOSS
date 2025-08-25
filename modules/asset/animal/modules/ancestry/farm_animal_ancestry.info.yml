@@ -1,0 +1,7 @@
+name: Animal ancestry chart
+description: Displays an ancestry chart for animal assets.
+type: module
+package: farmOS Animal
+core_version_requirement: ^10
+dependencies:
+  - farm:farm_animal

@@ -1,0 +1,20 @@
+<?php
+
+declare(strict_types=1);
+
+use Drupal\Core\Entity\EntityInterface;
+
+/**
+ * Implements hook_entity_presave().
+ */
+function farm_animal_entity_presave(EntityInterface $entity): void {
+  if ($entity->getEntityTypeId() !== 'asset' || $entity->bundle() !== 'animal') {
+    return;
+  }
+  if (!$entity->get('mother')->isEmpty()) {
+    $entity->set('mother', $entity->get('mother')->first());
+  }
+  if (!$entity->get('father')->isEmpty()) {
+    $entity->set('father', $entity->get('father')->first());
+  }
+}

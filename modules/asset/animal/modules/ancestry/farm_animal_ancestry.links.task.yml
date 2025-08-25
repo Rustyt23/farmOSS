@@ -1,0 +1,5 @@
+farm.asset.ancestry:
+  route_name: farm.asset.ancestry
+  title: 'Ancestry'
+  base_route: entity.asset.canonical
+  weight: 120

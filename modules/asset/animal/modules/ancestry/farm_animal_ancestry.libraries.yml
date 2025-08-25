@@ -1,0 +1,7 @@
+tree:
+  js:
+    https://cdn.jsdelivr.net/npm/d3@7/dist/d3.min.js: { type: external, minified: true, crossorigin: anonymous }
+    js/ancestry_tree.js: {}
+  dependencies:
+    - core/drupal
+    - core/drupalSettings
