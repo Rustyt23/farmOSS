@@ -1,0 +1,41 @@
+<?php
+
+declare(strict_types=1);
+
+use Drupal\Core\Entity\EntityTypeInterface;
+
+/**
+ * Implements hook_entity_base_field_info().
+ */
+function farm_user_location_entity_base_field_info(EntityTypeInterface $entity_type) {
+  $fields = [];
+
+  if ($entity_type->id() === 'user') {
+    $field_factory = \Drupal::service('farm_field.factory');
+
+    $options = [
+      'type' => 'string',
+      'label' => t('City'),
+      'description' => t('City of residence.'),
+      'weight' => [
+        'form' => 30,
+        'view' => 30,
+      ],
+    ];
+    $fields['city'] = $field_factory->baseFieldDefinition($options);
+
+    $options = [
+      'type' => 'string',
+      'label' => t('Country'),
+      'description' => t('Country of residence.'),
+      'weight' => [
+        'form' => 31,
+        'view' => 31,
+      ],
+    ];
+    $fields['country'] = $field_factory->baseFieldDefinition($options);
+  }
+
+  return $fields;
+}
+

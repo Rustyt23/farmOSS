@@ -85,10 +85,63 @@ class Animal extends FarmAssetType {
           'view' => -30,
         ],
       ],
+      'mother' => [
+        'type' => 'entity_reference',
+        'label' => $this->t('Mother'),
+        'description' => $this->t('Select the mother of this animal.'),
+        'target_type' => 'asset',
+        'weight' => [
+          'form' => 21,
+          'view' => -22,
+        ],
+      ],
+      'father' => [
+        'type' => 'entity_reference',
+        'label' => $this->t('Father'),
+        'description' => $this->t('Select the father of this animal.'),
+        'target_type' => 'asset',
+        'weight' => [
+          'form' => 22,
+          'view' => -21,
+        ],
+      ],
+      'is_breeding' => [
+        'type' => 'boolean',
+        'label' => $this->t('Breeding'),
+        'description' => $this->t('Is this animal used for breeding?'),
+        'weight' => [
+          'form' => 25,
+        ],
+        'view_display_options' => [
+          'label' => 'inline',
+          'type' => 'hideable_boolean',
+          'settings' => [
+            'format' => 'default',
+            'format_custom_false' => '',
+            'format_custom_true' => '',
+            'hide_if_false' => TRUE,
+          ],
+          'weight' => -24,
+        ],
+      ],
     ];
     foreach ($field_info as $name => $info) {
       $fields[$name] = $this->farmFieldFactory->bundleFieldDefinition($info);
     }
+    $fields['mother']->setSetting('handler', 'views');
+    $fields['mother']->setSetting('handler_settings', [
+      'view' => [
+        'view_name' => 'farm_animal_mother',
+        'display_name' => 'entity_reference',
+      ],
+    ]);
+    $fields['father']->setSetting('handler', 'views');
+    $fields['father']->setSetting('handler_settings', [
+      'view' => [
+        'view_name' => 'farm_animal_father',
+        'display_name' => 'entity_reference',
+      ],
+    ]);
     return $fields;
   }
 

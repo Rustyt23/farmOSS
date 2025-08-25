@@ -1,0 +1,225 @@
+<?php
+
+/**
+ * @file
+ * Sync assets to WooCommerce products via REST API.
+ */
+
+declare(strict_types=1);
+
+use Drupal\asset\Entity\AssetInterface;
+use Drupal\file\Entity\File;
+
+/**
+ * WooCommerce connection settings.
+ */
+const WC_SITE_URL = 'https://fowlhub.com';
+const WP_APP_USER = '787898';
+const WP_APP_PASSWORD = 'amF1 WZ4F 5WUL 3HMZ rnsZ n0UR';
+const CONSUMER_KEY = 'ck_c95294b6867851d13abb935f62db916f7ee07236';
+const CONSUMER_SECRET = 'cs_0a20f776327ca8868bf4ccf87c4de0112f9cceeb';
+
+/**
+ * Implements hook_ENTITY_TYPE_insert().
+ */
+function farm_woocommerce_asset_insert(AssetInterface $asset): void {
+  _farm_woocommerce_sync_product($asset);
+}
+
+/**
+ * Implements hook_ENTITY_TYPE_update().
+ */
+function farm_woocommerce_asset_update(AssetInterface $asset): void {
+  _farm_woocommerce_sync_product($asset);
+}
+
+/**
+ * Transliterate a string to a URL-friendly slug.
+ */
+function _farm_woocommerce_slugify(string $text): string {
+  $transliterator = \Drupal::transliteration();
+  $text = strtolower($transliterator->transliterate($text, 'en'));
+  $text = preg_replace('/[^a-z0-9]+/', '-', $text);
+  return trim((string) $text, '-');
+}
+
+/**
+ * Retrieve or create a WooCommerce category ID by slug.
+ */
+function _farm_woocommerce_get_or_create_category(string $slug, ?string $name = NULL): ?int {
+  $client = \Drupal::httpClient();
+  $endpoint = WC_SITE_URL . '/wp-json/wc/v3/products/categories';
+  $auth = [WP_APP_USER, WP_APP_PASSWORD];
+  $query = [
+    'consumer_key' => CONSUMER_KEY,
+    'consumer_secret' => CONSUMER_SECRET,
+    'slug' => $slug,
+  ];
+
+  try {
+    $response = $client->request('GET', $endpoint, [
+      'auth' => $auth,
+      'query' => $query,
+    ]);
+    $cats = json_decode($response->getBody()->getContents(), TRUE);
+    if (!empty($cats)) {
+      return (int) $cats[0]['id'];
+    }
+
+    // Create category when not found.
+    $payload = [
+      'name' => $name ?: ucfirst($slug),
+      'slug' => $slug,
+    ];
+    $response = $client->request('POST', $endpoint, [
+      'auth' => $auth,
+      'query' => [
+        'consumer_key' => CONSUMER_KEY,
+        'consumer_secret' => CONSUMER_SECRET,
+      ],
+      'json' => $payload,
+    ]);
+    $cat = json_decode($response->getBody()->getContents(), TRUE);
+    return (int) $cat['id'];
+  }
+  catch (\Exception $e) {
+    \Drupal::logger('farm_woocommerce')->error($e->getMessage());
+    return NULL;
+  }
+}
+
+/**
+ * Build a publicly accessible image URL for WooCommerce.
+ */
+function _farm_woocommerce_image_src(File $file): ?string {
+  $uri = $file->getFileUri();
+  if (strpos($uri, 'private://') === 0) {
+    $relative = substr($uri, strlen('private://'));
+    $url = 'https://members.fowlhub.com/private-assets/' . $relative;
+  }
+  else {
+    $url = \Drupal::service('file_url_generator')->generateAbsoluteString($uri);
+  }
+
+  try {
+    \Drupal::httpClient()->request('HEAD', $url);
+    return $url;
+  }
+  catch (\Exception $e) {
+    \Drupal::logger('farm_woocommerce')->warning('Skipping image @url: @msg', ['@url' => $url, '@msg' => $e->getMessage()]);
+    return NULL;
+  }
+}
+
+/**
+ * Build the payload array for a WooCommerce product.
+ */
+function _farm_woocommerce_build_payload(AssetInterface $asset): array {
+  $name = $asset->label();
+  $slug = _farm_woocommerce_slugify($name);
+  $up_for_sale = $asset->hasField('up_for_sale') && (bool) $asset->get('up_for_sale')->value;
+  $price = $asset->hasField('price') ? $asset->get('price')->value : NULL;
+  $quantity = $asset->hasField('quantity') ? (int) $asset->get('quantity')->value : 0;
+  $bundle = $asset->bundle();
+  $cat_id = _farm_woocommerce_get_or_create_category($bundle, $bundle);
+
+  $payload = [
+    'name' => $name,
+    'slug' => $slug,
+    'sku' => (string) $asset->id(),
+    'type' => 'simple',
+    'regular_price' => $price !== NULL ? (string) $price : NULL,
+    'manage_stock' => TRUE,
+    'stock_quantity' => $quantity,
+    'stock_status' => $quantity === 0 ? 'outofstock' : 'instock',
+    'categories' => $cat_id ? [['id' => $cat_id]] : [],
+  ];
+
+  if ($asset->hasField('image') && !$asset->get('image')->isEmpty()) {
+    $file = $asset->get('image')->entity;
+    if ($file instanceof File) {
+      $src = _farm_woocommerce_image_src($file);
+      if ($src) {
+        $payload['images'] = [['src' => $src]];
+      }
+    }
+  }
+
+  // Internal flags for conditional logic.
+  $payload['_up_for_sale'] = $up_for_sale;
+  $payload['_price'] = $price;
+  return $payload;
+}
+
+/**
+ * Create, update or delete a WooCommerce product based on asset state.
+ */
+function _farm_woocommerce_sync_product(AssetInterface $asset): void {
+  $client = \Drupal::httpClient();
+  $endpoint = WC_SITE_URL . '/wp-json/wc/v3/products';
+  $auth = [WP_APP_USER, WP_APP_PASSWORD];
+  $base_query = [
+    'consumer_key' => CONSUMER_KEY,
+    'consumer_secret' => CONSUMER_SECRET,
+  ];
+
+  $payload = _farm_woocommerce_build_payload($asset);
+  $up_for_sale = (bool) $payload['_up_for_sale'];
+  $price = $payload['_price'];
+  unset($payload['_up_for_sale'], $payload['_price']);
+
+  try {
+    $response = $client->request('GET', $endpoint, [
+      'auth' => $auth,
+      'query' => $base_query + ['slug' => $payload['slug'], 'per_page' => 100],
+    ]);
+    $existing = json_decode($response->getBody()->getContents(), TRUE);
+  }
+  catch (\Exception $e) {
+    \Drupal::logger('farm_woocommerce')->error($e->getMessage());
+    return;
+  }
+
+  // Remove products that are no longer for sale.
+  if (!$up_for_sale) {
+    foreach ($existing as $prod) {
+      try {
+        $client->request('DELETE', $endpoint . '/' . $prod['id'], [
+          'auth' => $auth,
+          'query' => $base_query + ['force' => TRUE],
+        ]);
+      }
+      catch (\Exception $e) {
+        \Drupal::logger('farm_woocommerce')->error($e->getMessage());
+      }
+    }
+    return;
+  }
+
+  // Skip if there is no price set.
+  if ($price === NULL) {
+    return;
+  }
+
+  try {
+    if (empty($existing)) {
+      $client->request('POST', $endpoint, [
+        'auth' => $auth,
+        'query' => $base_query,
+        'json' => $payload,
+      ]);
+    }
+    else {
+      $product_id = $existing[0]['id'];
+      $client->request('PUT', $endpoint . '/' . $product_id, [
+        'auth' => $auth,
+        'query' => $base_query,
+        'json' => $payload,
+      ]);
+    }
+  }
+  catch (\Exception $e) {
+    \Drupal::logger('farm_woocommerce')->error($e->getMessage());
+  }
+}
+

@@ -1,0 +1,13 @@
+farm.asset.ancestry:
+  path: '/asset/{asset}/ancestry'
+  defaults:
+    _title: 'Ancestry'
+    _controller: '\Drupal\\farm_animal_ancestry\\Controller\\AncestryController::chart'
+  requirements:
+    _custom_access: '\Drupal\\farm_animal_ancestry\\Controller\\AncestryController::access'
+    _module_dependencies: 'asset'
+    asset: '\d+'
+  options:
+    parameters:
+      asset:
+        type: entity:asset

@@ -1,0 +1,7 @@
+name: farmOS User Location
+description: Adds city and country fields to user accounts.
+type: module
+package: farmOS
+core_version_requirement: ^11
+dependencies:
+  - farm:farm_field

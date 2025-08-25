@@ -26,7 +26,9 @@ function farm_modules() {
       'farm_setup' => t('farmOS Setup pages'),
       'farm_ui' => t('farmOS UI'),
       'farm_update' => t('farmOS Update'),
-    ],
+      'farm_user_location' => t('User location fields'),
+      'farm_woocommerce' => t('WooCommerce product sync'),
+      ],
     'default' => [
       'farm_land' => t('Land assets'),
       'farm_plant' => t('Plant assets'),
@@ -59,6 +61,7 @@ function farm_modules() {
       'farm_lab_test' => t('Lab test logs'),
       'farm_birth' => t('Birth logs'),
       'farm_medical' => t('Medical logs'),
+      'farm_animal_ancestry' => t('Animal ancestry chart'),
       'farm_export_csv' => t('CSV exporter'),
       'farm_import_csv' => t('CSV importer'),
       'farm_export_kml' => t('KML exporter'),
