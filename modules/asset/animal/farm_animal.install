@@ -1,0 +1,23 @@
+<?php
+
+declare(strict_types=1);
+
+/**
+ * Remove extra mother and father field values stored before cardinality fix.
+ */
+function farm_animal_update_9001(): void {
+  $tables = [
+    'asset__mother',
+    'asset_revision__mother',
+    'asset__father',
+    'asset_revision__father',
+  ];
+  $database = \Drupal::database();
+  foreach ($tables as $table) {
+    if ($database->schema()->tableExists($table)) {
+      $database->delete($table)
+        ->condition('delta', 0, '>')
+        ->execute();
+    }
+  }
+}

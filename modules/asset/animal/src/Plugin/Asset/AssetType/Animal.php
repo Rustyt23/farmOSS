@@ -85,6 +85,30 @@ class Animal extends FarmAssetType {
           'view' => -30,
         ],
       ],
+      'mother' => [
+        'type' => 'entity_reference',
+        'label' => $this->t('Mother'),
+        'description' => $this->t('Reference the mother of this animal.'),
+        'target_type' => 'asset',
+        'target_bundle' => 'animal',
+        'cardinality' => 1,
+        'weight' => [
+          'form' => 25,
+          'view' => -20,
+        ],
+      ],
+      'father' => [
+        'type' => 'entity_reference',
+        'label' => $this->t('Father'),
+        'description' => $this->t('Reference the father of this animal.'),
+        'target_type' => 'asset',
+        'target_bundle' => 'animal',
+        'cardinality' => 1,
+        'weight' => [
+          'form' => 26,
+          'view' => -15,
+        ],
+      ],
     ];
     foreach ($field_info as $name => $info) {
       $fields[$name] = $this->farmFieldFactory->bundleFieldDefinition($info);
