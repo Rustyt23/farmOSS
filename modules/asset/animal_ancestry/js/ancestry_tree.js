@@ -11,14 +11,14 @@
         return;
       }
 
-      const width = 600;
-      const dx = 10;
-      const dy = 180;
+      const dx = 60;
+      const dy = 120;
       const tree = d3.tree().nodeSize([dx, dy]);
-      const diagonal = d3.linkHorizontal().x(d => d.y).y(d => d.x);
-
       const root = d3.hierarchy(data);
       tree(root);
+
+      // Invert the tree so ancestors appear above the selected asset.
+      root.each(d => d.y = -d.depth * dy);
 
       let x0 = Infinity;
       let x1 = -x0;
@@ -27,21 +27,21 @@
         if (d.x < x0) x0 = d.x;
       });
 
+      const height = root.height * dy + dx * 2;
       const svg = d3.select(container).append('svg')
-        .attr('viewBox', [0, 0, width, x1 - x0 + dx * 2]);
+        .attr('viewBox', [x0 - dx, -height, x1 - x0 + dx * 2, height]);
 
       const g = svg.append('g')
-        .attr('transform', `translate(${dy / 3},${dx - x0})`);
+        .attr('transform', `translate(0, ${height - dx})`);
 
       g.append('g')
         .attr('fill', 'none')
-        .attr('stroke', '#555')
-        .attr('stroke-opacity', 0.4)
+        .attr('stroke', '#000')
         .attr('stroke-width', 1.5)
         .selectAll('path')
         .data(root.links())
         .join('path')
-        .attr('d', diagonal);
+        .attr('d', d => `M${d.source.x},${d.source.y}V${d.target.y}H${d.target.x}`);
 
       const node = g.append('g')
         .attr('stroke-linejoin', 'round')
@@ -49,18 +49,18 @@
         .selectAll('g')
         .data(root.descendants())
         .join('g')
-        .attr('transform', d => `translate(${d.y},${d.x})`);
+        .attr('transform', d => `translate(${d.x},${d.y})`);
 
       node.append('circle')
-        .attr('fill', d => d.children ? '#555' : '#999')
+        .attr('fill', d => d.data.selected ? '#f00' : d.children ? '#555' : '#999')
         .attr('r', 4);
 
       node.append('a')
         .attr('xlink:href', d => d.data.url)
         .append('text')
         .attr('dy', '0.31em')
-        .attr('x', d => d.children ? -6 : 6)
-        .attr('text-anchor', d => d.children ? 'end' : 'start')
+        .attr('x', 6)
+        .attr('text-anchor', 'start')
         .text(d => d.data.name)
         .clone(true).lower()
         .attr('stroke', 'white');
