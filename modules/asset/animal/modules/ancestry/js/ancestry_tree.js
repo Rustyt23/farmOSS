@@ -27,9 +27,17 @@
         if (d.x < x0) x0 = d.x;
       });
 
+      const width = x1 - x0 + dx * 2;
       const height = root.height * dy + dx * 2;
+      container.style.overflow = 'auto';
+      // Position the chart vertically using positive coordinates. The previous
+      // implementation set the viewBox's y-origin to -height, which shifted all
+      // nodes outside the visible area. Start the y-origin at 0 so translated
+      // nodes remain within the SVG's bounds.
       const svg = d3.select(container).append('svg')
-        .attr('viewBox', [x0 - dx, -height, x1 - x0 + dx * 2, height]);
+        .attr('width', width)
+        .attr('height', height)
+        .attr('viewBox', [x0 - dx, 0, width, height]);
 
       const g = svg.append('g')
         .attr('transform', `translate(0, ${height - dx})`);
@@ -61,6 +69,7 @@
         .attr('dy', '0.31em')
         .attr('x', 6)
         .attr('text-anchor', 'start')
+        .attr('font-size', 12)
         .text(d => d.data.name)
         .clone(true).lower()
         .attr('stroke', 'white');
