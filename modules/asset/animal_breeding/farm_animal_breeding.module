@@ -1,0 +1,118 @@
+<?php
+
+declare(strict_types=1);
+
+use Drupal\Core\Entity\EntityTypeInterface;
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\Entity\Display\EntityViewDisplayInterface;
+use Drupal\Core\Entity\Display\EntityFormDisplayInterface;
+
+/**
+ * Implements hook_farm_entity_bundle_field_info().
+ */
+function farm_animal_breeding_farm_entity_bundle_field_info(EntityTypeInterface $entity_type, string $bundle) {
+  $fields = [];
+  if ($entity_type->id() === 'asset' && $bundle === 'animal') {
+    $field_info = [
+      'mother' => [
+        'type' => 'entity_reference',
+        'label' => t('Mother'),
+        'description' => t('Select the mother of this animal.'),
+        'target_type' => 'asset',
+        'cardinality' => 1,
+        'weight' => [
+          'form' => 21,
+          'view' => -22,
+        ],
+      ],
+      'father' => [
+        'type' => 'entity_reference',
+        'label' => t('Father'),
+        'description' => t('Select the father of this animal.'),
+        'target_type' => 'asset',
+        'cardinality' => 1,
+        'weight' => [
+          'form' => 22,
+          'view' => -21,
+        ],
+      ],
+      'is_breeding' => [
+        'type' => 'boolean',
+        'label' => t('Breeding'),
+        'description' => t('Is this animal used for breeding?'),
+        'weight' => [
+          'form' => 25,
+        ],
+        'view_display_options' => [
+          'label' => 'inline',
+          'type' => 'hideable_boolean',
+          'settings' => [
+            'format' => 'default',
+            'format_custom_false' => '',
+            'format_custom_true' => '',
+            'hide_if_false' => TRUE,
+          ],
+          'weight' => -24,
+        ],
+      ],
+    ];
+    foreach ($field_info as $name => $info) {
+      $fields[$name] = \Drupal::service('farm_field.factory')->bundleFieldDefinition($info);
+    }
+    // Restrict parent selections via Views.
+    $fields['mother']->setSetting('handler', 'views');
+    $fields['mother']->setSetting('handler_settings', [
+      'view' => [
+        'view_name' => 'farm_animal_mother',
+        'display_name' => 'entity_reference',
+      ],
+    ]);
+    $fields['father']->setSetting('handler', 'views');
+    $fields['father']->setSetting('handler_settings', [
+      'view' => [
+        'view_name' => 'farm_animal_father',
+        'display_name' => 'entity_reference',
+      ],
+    ]);
+  }
+  return $fields;
+}
+
+/**
+ * Implements hook_form_asset_form_alter().
+ */
+function farm_animal_breeding_form_asset_form_alter(array &$form, FormStateInterface $form_state, string $form_id) {
+  $entity = $form_state->getFormObject()->getEntity();
+  if ($entity->bundle() === 'animal') {
+    unset($form['parent']);
+  }
+}
+
+/**
+ * Implements hook_entity_form_display_alter().
+ */
+function farm_animal_breeding_entity_form_display_alter(EntityFormDisplayInterface $form_display, array $context) {
+  if ($context['entity_type'] === 'asset' && $context['bundle'] === 'animal') {
+    $form_display->removeComponent('parent');
+  }
+}
+
+/**
+ * Implements hook_entity_view_display_alter().
+ */
+function farm_animal_breeding_entity_view_display_alter(EntityViewDisplayInterface $display, array $context) {
+  if ($context['entity_type'] === 'asset' && $context['bundle'] === 'animal') {
+    $display->removeComponent('parent');
+  }
+}
+
+/**
+ * Implements hook_entity_view_alter().
+ */
+function farm_animal_breeding_entity_view_alter(array &$build, EntityInterface $entity, EntityViewDisplayInterface $display) {
+  if ($entity->getEntityTypeId() === 'asset' && $entity->bundle() === 'animal') {
+    unset($build['parent']);
+  }
+}
+

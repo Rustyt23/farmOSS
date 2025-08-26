@@ -61,6 +61,7 @@ function farm_modules() {
       'farm_lab_test' => t('Lab test logs'),
       'farm_birth' => t('Birth logs'),
       'farm_medical' => t('Medical logs'),
+      'farm_animal_breeding' => t('Animal breeding fields'),
       'farm_animal_ancestry' => t('Animal ancestry chart'),
       'farm_export_csv' => t('CSV exporter'),
       'farm_import_csv' => t('CSV importer'),
