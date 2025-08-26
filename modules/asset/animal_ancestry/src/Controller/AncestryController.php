@@ -31,7 +31,7 @@ class AncestryController extends ControllerBase {
         'library' => ['farm_animal_ancestry/tree'],
         'drupalSettings' => [
           'farmAnimalAncestry' => [
-            'tree' => $this->buildTreeData($asset),
+            'tree' => $this->buildTreeData($asset, $asset->id()),
           ],
         ],
       ],
@@ -41,17 +41,19 @@ class AncestryController extends ControllerBase {
   /**
    * Recursively build ancestry data for the JavaScript tree.
    */
-  protected function buildTreeData(AssetInterface $asset): array {
+  protected function buildTreeData(AssetInterface $asset, ?int $selected_id = NULL): array {
+    $selected_id = $selected_id ?? $asset->id();
     $node = [
       'name' => $asset->label(),
       'url' => $asset->toUrl()->toString(),
+      'selected' => $asset->id() === $selected_id,
       'children' => [],
     ];
     foreach (['mother', 'father'] as $role) {
       /** @var \Drupal\asset\Entity\AssetInterface|null $parent */
       $parent = $asset->get($role)->entity;
       if ($parent) {
-        $node['children'][] = $this->buildTreeData($parent);
+        $node['children'][] = $this->buildTreeData($parent, $selected_id);
       }
     }
     return $node;
