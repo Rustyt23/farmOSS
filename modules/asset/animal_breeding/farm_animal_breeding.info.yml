@@ -1,0 +1,7 @@
+name: 'Animal breeding'
+type: module
+description: 'Adds mother and father references and breeding toggle to animal assets.'
+package: farmOS
+core_version_requirement: ^9 || ^10
+dependencies:
+  - farm_animal

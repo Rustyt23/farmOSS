@@ -1,0 +1,7 @@
+name: farmOS WooCommerce
+description: Sync asset entities with WooCommerce products.
+type: module
+package: farmOS
+core_version_requirement: ^11
+dependencies:
+  - farm:asset
